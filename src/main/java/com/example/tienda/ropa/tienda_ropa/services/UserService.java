@@ -5,7 +5,6 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,9 +14,6 @@ import com.example.tienda.ropa.tienda_ropa.entities.User;
 import com.example.tienda.ropa.tienda_ropa.entities.UserDto;
 import com.example.tienda.ropa.tienda_ropa.repositories.IRoleRepository;
 import com.example.tienda.ropa.tienda_ropa.repositories.IUserRepository;
-
-import io.micrometer.core.ipc.http.HttpSender.Response;
-
 @Service
 public class UserService {
     
