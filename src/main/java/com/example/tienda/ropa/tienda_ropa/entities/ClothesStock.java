@@ -3,22 +3,30 @@ package com.example.tienda.ropa.tienda_ropa.entities;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 
 
 @Entity
-@Table(name= "clothes")
-public class Clothes {
+@Table(name= "clothesStock", uniqueConstraints = @UniqueConstraint(columnNames = "code"))
+public class ClothesStock {
     
-    final static Integer stock = 0;
 
     @Id
     private String id;
+
+    @NotEmpty
+    private String code;
 
     @NotEmpty
     private String name;
@@ -29,26 +37,29 @@ public class Clothes {
     @NotNull
     private Double price;
 
-    @NotEmpty
     private String image;
     
     @NotEmpty
     private String description;
     
     @NotEmpty
+    @Column(name = "generic_type")
     private String genericType;
     
     @NotEmpty
-    private String especificType;
+    @Column(name = "specific_type")
+    private String specificType;
     
     @NotNull
-    private Integer cant;
+    private Integer stock;
     
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Temporal(TemporalType.DATE)
     @NotNull
     private Date publication;
     
-    public Clothes(String id, String name, String size, double price, String image, String description,
-            String genericType, String especificType, Integer cant) {
+    public ClothesStock(String id, String name, String size, double price, String image, String description,
+            String genericType, String especificType, Integer stock, String code) {
         this.id = id;
         this.name = name;
         this.size = size;
@@ -56,16 +67,12 @@ public class Clothes {
         this.image = image;
         this.description = description;
         this.genericType = genericType;
-        this.especificType = especificType;
-        this.cant = cant;
-        this.publication = new Date();;
+        this.specificType = especificType;
+        this.stock = stock;
+        this.publication = new Date();
+        this.code = code;
     }
 
-
-    
-    public static Integer getStock() {
-        return stock;
-    }
 
 
 
@@ -141,26 +148,26 @@ public class Clothes {
 
 
 
-    public String getEspecificType() {
-        return especificType;
+    public String getSpecificType() {
+        return specificType;
     }
 
 
 
-    public void setEspecificType(String especificType) {
-        this.especificType = especificType;
+    public void setSpecificType(String especificType) {
+        this.specificType = especificType;
     }
 
 
 
-    public Integer getCant() {
-        return cant;
+    public Integer getStock() {
+        return stock;
     }
 
 
 
-    public void setCant(Integer cant) {
-        this.cant = cant;
+    public void setStock(Integer stock) {
+        this.stock = stock;
     }
 
 
@@ -173,6 +180,10 @@ public class Clothes {
 
     public Date getPublication() {
         return publication;
+    }
+
+    public String getCode(){
+        return code;
     }
 
 
@@ -190,8 +201,8 @@ public class Clothes {
         result = prime * result + ((image == null) ? 0 : image.hashCode());
         result = prime * result + ((description == null) ? 0 : description.hashCode());
         result = prime * result + ((genericType == null) ? 0 : genericType.hashCode());
-        result = prime * result + ((especificType == null) ? 0 : especificType.hashCode());
-        result = prime * result + ((cant == null) ? 0 : cant.hashCode());
+        result = prime * result + ((specificType == null) ? 0 : specificType.hashCode());
+        result = prime * result + ((stock == null) ? 0 : stock.hashCode());
         return result;
     }
 
@@ -203,7 +214,7 @@ public class Clothes {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Clothes other = (Clothes) obj;
+        ClothesStock other = (ClothesStock) obj;
         if (id == null) {
             if (other.id != null)
                 return false;
@@ -236,15 +247,15 @@ public class Clothes {
                 return false;
         } else if (!genericType.equals(other.genericType))
             return false;
-        if (especificType == null) {
-            if (other.especificType != null)
+        if (specificType == null) {
+            if (other.specificType != null)
                 return false;
-        } else if (!especificType.equals(other.especificType))
+        } else if (!specificType.equals(other.specificType))
             return false;
-        if (cant == null) {
-            if (other.cant != null)
+        if (stock == null) {
+            if (other.stock != null)
                 return false;
-        } else if (!cant.equals(other.cant))
+        } else if (!stock.equals(other.stock))
             return false;
         return true;
     }

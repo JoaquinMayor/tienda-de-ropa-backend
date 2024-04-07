@@ -1,54 +1,71 @@
 package com.example.tienda.ropa.tienda_ropa.entities;
 
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import io.micrometer.common.lang.NonNull;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "tax")
+@Table(name = "tax", uniqueConstraints = @UniqueConstraint(columnNames = "code"))
 public class Tax {
     @Id
     private String id;
 
     @NotEmpty
-    private String price;
+    private String code;
+
+    @NotNull
+    private Float price;
+
+    @NotNull
+    private Float travelCost;
+
+    @NotEmpty
+    private String adress;
+
+
+
+    @JsonFormat(pattern="yyyy-MM-dd")
+    @Temporal(TemporalType.DATE)
+    @Column(name = "date_creation")
+    @NonNull
+    private Date date;
 
     @OneToMany()
     @JoinColumn(name = "tax_id")
-    private List<Clothes> clothes;
-
-    @NonNull
-    private Date date;
+    private Set<ClothesSold> clothes;
 
     @ManyToOne
     @JoinColumn(name = "id_user")
     private User user;
 
-    @NotNull
-    private Double travelCost;
+  
 
-    @NotEmpty
-    private String adress;
-
-    public Tax(String id, String price, Date date, User user, Double travelCost, String adress) {
+    public Tax(String id, Float price, Date date, User user, Float travelCost, String adress, String code) {
         this.id = id;
         this.price = price;
         this.date = date;
         this.user = user;
         this.travelCost = travelCost;
         this.adress = adress;
-        this.clothes = new ArrayList<>();
+        this.clothes = new HashSet<>();
+        this.code = code;
     }
 
     
@@ -59,11 +76,11 @@ public class Tax {
 
 
 
-    public String getPrice() {
+    public Float getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(Float price) {
         this.price = price;
     }
 
@@ -83,11 +100,11 @@ public class Tax {
         this.user = user;
     }
 
-    public Double getTravelCost() {
+    public Float getTravelCost() {
         return travelCost;
     }
 
-    public void setTravelCost(Double travelCost) {
+    public void setTravelCost(Float travelCost) {
         this.travelCost = travelCost;
     }
 
@@ -100,6 +117,9 @@ public class Tax {
     }
 
 
+    public String code(){
+        return code;
+    }
 
     @Override
     public int hashCode() {
