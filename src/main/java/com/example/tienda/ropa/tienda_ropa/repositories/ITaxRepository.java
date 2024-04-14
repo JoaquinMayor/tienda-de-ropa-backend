@@ -10,6 +10,7 @@ import com.example.tienda.ropa.tienda_ropa.entities.Tax;
 
 public interface ITaxRepository extends CrudRepository<Tax,String>{
 
+    @SuppressWarnings("null")
     Set<Tax> findAll();
 
     Optional<Tax> findByCode(String code);

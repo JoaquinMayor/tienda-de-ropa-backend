@@ -3,7 +3,6 @@ package com.example.tienda.ropa.tienda_ropa.entities;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.CascadeType;
@@ -42,7 +41,7 @@ public class User {
     @NotEmpty
     private String image;
 
-    @JsonIgnore
+    
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
     private Set<Tax> taxs;
 
@@ -138,6 +137,10 @@ public class User {
     }
 
 
+
+    public void setTaxs(Tax tax) {
+        this.taxs.add(tax);
+    }
 
 
 

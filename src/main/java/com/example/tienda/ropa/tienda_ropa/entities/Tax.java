@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import io.micrometer.common.lang.NonNull;
 import jakarta.persistence.Column;
@@ -51,6 +52,7 @@ public class Tax {
     @JoinColumn(name = "tax_id")
     private Set<ClothesSold> clothes;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_user")
     private User user;
@@ -72,6 +74,10 @@ public class Tax {
 
     public String getId() {
         return id;
+    }
+
+    public Set<ClothesSold> getClothes() {
+        return clothes;
     }
 
 

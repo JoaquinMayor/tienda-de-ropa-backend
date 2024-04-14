@@ -4,11 +4,13 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.tienda.ropa.tienda_ropa.entities.ClothesStock;
 import com.example.tienda.ropa.tienda_ropa.repositories.IClothesStockRepository;
 
+@Service
 public class ClothesStockServices {
 
     @Autowired
@@ -30,8 +32,8 @@ public class ClothesStockServices {
     }
 
     @Transactional(readOnly = true)
-    public Set<ClothesStock> findByParams(String code, String name, String size, Float price, String genericType, String specificType){
-        return clothesRepository.findByParameters(code, name, size, price, genericType, specificType);
+    public Set<ClothesStock> findByParams(String name, String size, Float priceMin, Float priceMax, String genericType, String specificType){
+        return clothesRepository.findByParameters(name, size, priceMin,priceMax, genericType, specificType);
     }
 
 }

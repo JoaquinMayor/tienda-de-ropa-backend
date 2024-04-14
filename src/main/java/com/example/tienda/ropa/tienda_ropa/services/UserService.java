@@ -42,6 +42,11 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
+    public Optional<User> findById(String id){
+        return userRepository.findById(id);
+    }
+
+    @Transactional(readOnly = true)
     public Optional<User> findByEmail(String email){
         return userRepository.findByEmail(email);
     }
@@ -52,8 +57,8 @@ public class UserService {
     }
 
     @Transactional
-    public ResponseEntity<?> update(UserDto userDto){
-        Optional<User> userOptional  = userRepository.findByEmail(userDto.getEmail());
+    public ResponseEntity<?> update(UserDto userDto, String id){
+        Optional<User> userOptional  = userRepository.findById(id);
 
         if(userOptional.isPresent()){
             User user = userOptional.get();
@@ -69,8 +74,8 @@ public class UserService {
     }
 
     @Transactional
-    public ResponseEntity<?> updatePassword(String email, String newPassword){
-        Optional<User> userOptional  = userRepository.findByEmail(email);
+    public ResponseEntity<?> updatePassword(String id, String newPassword){
+        Optional<User> userOptional  = userRepository.findById(id);
 
         if(userOptional.isPresent()){
             User user = userOptional.get();

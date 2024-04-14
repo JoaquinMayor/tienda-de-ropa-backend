@@ -9,7 +9,11 @@ import com.example.tienda.ropa.tienda_ropa.entities.User;
 
 public interface IUserRepository extends CrudRepository<User, String>{
 
+    @SuppressWarnings("null")
     Set<User> findAll();
+
+    @SuppressWarnings("null")
+    Optional<User> findById(String id);
     
     Optional<User> findByEmail(String email);
 

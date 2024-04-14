@@ -2,9 +2,9 @@ package com.example.tienda.ropa.tienda_ropa.entities;
 
 public class UserDto {
 
+    private String id;
 
     private String name;
-    
 
     private String lastname;
 
@@ -14,7 +14,8 @@ public class UserDto {
 
     private String email;
 
-    public UserDto( String name, String lastname, String tel, String image, String email) {
+    public UserDto(String id, String name, String lastname, String tel, String image, String email) {
+        this.id = id;
         this.name = name;
         this.lastname = lastname;
         this.tel = tel;
@@ -23,6 +24,9 @@ public class UserDto {
     }
 
     
+    public String getId() {
+        return id;
+    }
 
     public String getName() {
         return name;
@@ -106,6 +110,10 @@ public class UserDto {
             return false;
         return true;
     }
+
+
+
+
 
 
 
