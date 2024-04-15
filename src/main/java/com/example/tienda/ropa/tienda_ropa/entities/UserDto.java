@@ -14,6 +14,11 @@ public class UserDto {
 
     private String email;
 
+    
+    public UserDto() {
+    }
+
+
     public UserDto(String id, String name, String lastname, String tel, String image, String email) {
         this.id = id;
         this.name = name;

@@ -25,7 +25,7 @@ import com.example.tienda.ropa.tienda_ropa.services.UserService;
 
 import jakarta.validation.Valid;
 
-@CrossOrigin(origins = "http://localhost:4200")
+//@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/users")
 public class UserController implements IValidation{
@@ -36,36 +36,34 @@ public class UserController implements IValidation{
 
     @GetMapping
     public ResponseEntity<?> list(){
-        if(!userService.findAll().isEmpty()){
+       if(!userService.findAll().isEmpty()){
             return ResponseEntity.ok(userService.findAll());
         }
         
         return ResponseEntity.notFound().build();
     }
 
-    @PostMapping("/{id}/{password}")
-    public ResponseEntity<?> create(@PathVariable String id, @PathVariable String password, @Valid @RequestBody UserDto user,  BindingResult result){
+    @PostMapping("/{password}")
+    public ResponseEntity<?> create(@PathVariable String password, @Valid @RequestBody UserDto user,  BindingResult result){
         if(result.hasFieldErrors()){
             return validation(result);
         }
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(user,id,password));
+        User userNew = userService.save(user,password);
+        return ResponseEntity.status(HttpStatus.CREATED).body(userNew);
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<?> update(@PathVariable String id, @Valid @RequestBody UserDto user, BindingResult result){
+    @PutMapping("/update")
+    public ResponseEntity<?> update(@Valid @RequestBody UserDto user, BindingResult result){
         if(result.hasFieldErrors()){
             return validation(result);
         }
 
-        return userService.update(user, id);
+        return userService.update(user);
     }
 
     @PutMapping("/updatePassword/{id}/{password}")
-    public ResponseEntity<?> updatePassword(@PathVariable String id, @PathVariable String password, BindingResult result){
-        if(result.hasFieldErrors()){
-            return validation(result);
-        }
+    public ResponseEntity<?> updatePassword(@PathVariable String id, @PathVariable String password){
+        
         return userService.updatePassword(id, password);
     } 
 

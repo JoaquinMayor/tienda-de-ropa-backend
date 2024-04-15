@@ -6,7 +6,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
+//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.example.tienda.ropa.tienda_ropa.entities.Role;
@@ -23,15 +23,15 @@ public class UserService {
     @Autowired
     private IUserRepository userRepository;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+   /*  @Autowired
+    private PasswordEncoder passwordEncoder;*/
 
     @Transactional
-    public User save(UserDto userDto, String id, String password){
+    public User save(UserDto userDto, String password){
         Optional<Role> optionalRole = roleRepository.findByName("ROLE_USER");
-        String passwordEncoded = passwordEncoder.encode(password);
-        User user = new User(id, password,userDto.getLastname(),userDto.getEmail(),userDto.getTel(),passwordEncoded, userDto.getImage());
-        user.setRole(optionalRole.orElse(null));
+       // String passwordEncoded = passwordEncoder.encode(password);
+        User user = new User(userDto.getId(),password,userDto.getLastname(),userDto.getEmail(),userDto.getTel(),password, userDto.getImage());
+        user.setRole(optionalRole.orElseThrow());
         
         return userRepository.save(user);
     }
@@ -57,8 +57,8 @@ public class UserService {
     }
 
     @Transactional
-    public ResponseEntity<?> update(UserDto userDto, String id){
-        Optional<User> userOptional  = userRepository.findById(id);
+    public ResponseEntity<?> update(UserDto userDto){
+        Optional<User> userOptional  = userRepository.findById(userDto.getId());
 
         if(userOptional.isPresent()){
             User user = userOptional.get();
@@ -79,8 +79,8 @@ public class UserService {
 
         if(userOptional.isPresent()){
             User user = userOptional.get();
-            String passwordEncoded = passwordEncoder.encode(newPassword);
-            user.setPassword(passwordEncoded);
+            //String passwordEncoded = passwordEncoder.encode(newPassword);
+            user.setPassword(newPassword);
             return ResponseEntity.status(HttpStatus.CREATED).body(user);
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

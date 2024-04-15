@@ -57,6 +57,9 @@ public class User {
 
 
 
+    public User() {
+    }
+    
     public User(String id, String name, String lastname, String email, String tel, String password,
             String image) {
         this.id = id;
@@ -140,6 +143,18 @@ public class User {
 
     public void setTaxs(Tax tax) {
         this.taxs.add(tax);
+    }
+
+
+
+    public String getPassword() {
+        return password;
+    }
+
+
+
+    public Set<Tax> getTaxs() {
+        return taxs;
     }
 
 

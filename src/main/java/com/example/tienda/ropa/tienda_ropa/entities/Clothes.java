@@ -47,6 +47,10 @@ public class Clothes {
     @NotNull
     private Date publication;
 
+    
+    public Clothes() {
+    }
+
     public Clothes(String id,  String code, String name,  String size,
          Double price, String image,  String description, String genericType,
          String specificType, Date publication) {

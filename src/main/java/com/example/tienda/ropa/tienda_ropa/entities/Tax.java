@@ -28,13 +28,14 @@ public class Tax {
     @Id
     private String id;
 
-    @NotEmpty
+    //@NotEmpty
     private String code;
 
     @NotNull
     private Float price;
 
-    @NotNull
+    //@NotNull
+    @Column(name = "travel_cost")
     private Float travelCost;
 
     @NotEmpty
@@ -58,6 +59,9 @@ public class Tax {
     private User user;
 
   
+
+    public Tax() {
+    }
 
     public Tax(String id, Float price, Date date, User user, Float travelCost, String adress, String code) {
         this.id = id;
@@ -106,11 +110,11 @@ public class Tax {
         this.user = user;
     }
 
-    public Float getTravelCost() {
+    public Float getTravelCosto() {
         return travelCost;
     }
 
-    public void setTravelCost(Float travelCost) {
+    public void setTravelCosto(Float travelCost) {
         this.travelCost = travelCost;
     }
 

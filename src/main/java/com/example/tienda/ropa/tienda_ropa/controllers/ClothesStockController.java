@@ -9,12 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.tienda.ropa.tienda_ropa.Interface.IValidation;
@@ -24,7 +24,7 @@ import com.example.tienda.ropa.tienda_ropa.services.ClothesStockServices;
 import jakarta.validation.Valid;
 
 
-@CrossOrigin(origins = "http://localhost:4200")
+//@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("api/clothes")
 public class ClothesStockController implements IValidation{
@@ -59,9 +59,9 @@ public class ClothesStockController implements IValidation{
         return ResponseEntity.notFound().build();
     }
 
-    @GetMapping("find/{name}/{size}/{priceMin}/{priceMax}/{genericType}/{specificType}")
-    public ResponseEntity<?> findClothesByParameters(@PathVariable String name, @PathVariable String size, @PathVariable Float priceMin, @PathVariable Float priceMax, @PathVariable String genericType, @PathVariable String SpecificType){
-        Set<ClothesStock> clothes = clothesService.findByParams(name, size, priceMin, priceMax, genericType, SpecificType);
+    @GetMapping("/find")
+    public ResponseEntity<?> findClothesByParameters(@RequestParam(required = false) String name, @RequestParam(required = false) String size, @RequestParam(required = false) Float priceMin, @RequestParam(required = false) Float priceMax, @RequestParam(required = false) String genericType, @RequestParam(required = false) String specificType){
+        Set<ClothesStock> clothes = clothesService.findByParams(name, size, priceMin, priceMax, genericType, specificType);
         if(!clothes.isEmpty()){
             return ResponseEntity.ok(clothes);
         }

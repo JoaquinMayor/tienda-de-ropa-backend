@@ -18,10 +18,10 @@ public interface IClothesStockRepository extends CrudRepository<ClothesStock,Str
     Optional<ClothesStock> findByCode(String code);
 
     @Query("SELECT cs FROM ClothesStock cs WHERE " +
-    "(:name IS NULL OR :name = '' OR cs.name = :name) AND " +
+    "(:name IS NULL OR :name = '' OR cs.name LIKE %:name%) AND " +
     "(:size IS NULL OR :size = '' OR cs.size = :size) AND " +
     "(:priceMin IS NULL OR :priceMin = 0 OR cs.price > :priceMin) AND " +
-    "(:priceMax IS NULL OR :priceMax = 0 OR cs.price < :price) AND " +
+    "(:priceMax IS NULL OR :priceMax = 0 OR cs.price < :priceMax) AND " +
     "(:genericType IS NULL OR :genericType = '' OR cs.genericType = :genericType) AND " +
     "(:specificType IS NULL OR :specificType = '' OR cs.specificType = :specificType)")
     Set<ClothesStock> findByParameters(

@@ -18,10 +18,14 @@ public class ClothesSold extends Clothes {
     private Integer cant;
 
     @ManyToOne
-    @JoinColumn(name = "tax_id")
+    @JoinColumn(name = "id_tax")
     @JsonIgnore
     @NotNull
     private Tax tax;
+
+    
+    public ClothesSold() {
+    }
 
     public ClothesSold(String id, String code, String name, String size,
             Double price, String image, String description, String genericType,

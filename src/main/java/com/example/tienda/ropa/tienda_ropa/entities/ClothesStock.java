@@ -14,6 +14,10 @@ public class ClothesStock extends Clothes {
     @NotNull
     private Integer stock;
 
+    
+    public ClothesStock() {
+    }
+
     public ClothesStock(String id, String code, String name, String size,
             Double price, String image, String description, String genericType,
             String specificType, Date publication, Integer stock) {
