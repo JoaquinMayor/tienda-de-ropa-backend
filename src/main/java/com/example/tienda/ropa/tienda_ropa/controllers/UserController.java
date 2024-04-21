@@ -25,7 +25,7 @@ import com.example.tienda.ropa.tienda_ropa.services.UserService;
 
 import jakarta.validation.Valid;
 
-//@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/users")
 public class UserController implements IValidation{

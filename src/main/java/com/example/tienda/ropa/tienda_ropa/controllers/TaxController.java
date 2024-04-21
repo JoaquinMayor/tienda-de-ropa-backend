@@ -26,7 +26,7 @@ import com.example.tienda.ropa.tienda_ropa.services.TaxServices;
 
 import jakarta.validation.Valid;
 
-//@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/taxs")
 public class TaxController implements IValidation{
