@@ -86,7 +86,6 @@ public class Tax {
     }
 
 
-
     public Float getPrice() {
         return price;
     }
