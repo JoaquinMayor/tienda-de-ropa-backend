@@ -30,7 +30,7 @@ public class UserService {
     public User save(UserDto userDto, String password){
         Optional<Role> optionalRole = roleRepository.findByName("ROLE_USER");
        // String passwordEncoded = passwordEncoder.encode(password);
-        User user = new User(userDto.getId(),password,userDto.getLastname(),userDto.getEmail(),userDto.getTel(),password, userDto.getImage());
+        User user = new User(userDto.getId(),userDto.getName(),userDto.getLastname(),userDto.getEmail(),userDto.getTel(),password, userDto.getImage());
         user.setRole(optionalRole.orElseThrow());
         
         return userRepository.save(user);

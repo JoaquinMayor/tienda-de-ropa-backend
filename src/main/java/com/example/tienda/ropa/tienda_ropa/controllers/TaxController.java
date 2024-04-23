@@ -42,7 +42,7 @@ public class TaxController implements IValidation{
         return ResponseEntity.notFound().build();
     }
 
-    @PostMapping("/{idUser}")
+    @PostMapping(path = "/{idUser}", consumes = "application/json;charset=UTF-8")
     public ResponseEntity<?> create(@PathVariable String idUser, @Valid @RequestBody Tax tax, BindingResult result){
         if(result.hasFieldErrors()){
             return validation(result);

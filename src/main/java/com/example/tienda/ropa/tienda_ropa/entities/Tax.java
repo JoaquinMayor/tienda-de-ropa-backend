@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import io.micrometer.common.lang.NonNull;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -28,15 +29,16 @@ public class Tax {
     @Id
     private String id;
 
-    //@NotEmpty
+    @NotEmpty
+    @Column(name = "code")
     private String code;
 
     @NotNull
     private Float price;
 
-    //@NotNull
+    @NotNull
     @Column(name = "travel_cost")
-    private Float travelCost;
+    private Double travelCost;
 
     @NotEmpty
     private String adress;
@@ -49,8 +51,7 @@ public class Tax {
     @NonNull
     private Date date;
 
-    @OneToMany()
-    @JoinColumn(name = "tax_id")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,mappedBy = "tax")
     private Set<ClothesSold> clothes;
 
     @JsonIgnore
@@ -63,7 +64,7 @@ public class Tax {
     public Tax() {
     }
 
-    public Tax(String id, Float price, Date date, User user, Float travelCost, String adress, String code) {
+    public Tax(String id, Float price, Date date, User user, Double travelCost, String adress, String code) {
         this.id = id;
         this.price = price;
         this.date = date;
@@ -110,11 +111,11 @@ public class Tax {
         this.user = user;
     }
 
-    public Float getTravelCosto() {
+    public Double getTravelCosto() {
         return travelCost;
     }
 
-    public void setTravelCosto(Float travelCost) {
+    public void setTravelCosto(Double travelCost) {
         this.travelCost = travelCost;
     }
 
@@ -127,9 +128,22 @@ public class Tax {
     }
 
 
-    public String code(){
+    public String getCode() {
         return code;
     }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public Double getTravelCost() {
+        return travelCost;
+    }
+
+    public void setTravelCost(Double travelCost) {
+        this.travelCost = travelCost;
+    }
+
 
     @Override
     public int hashCode() {
@@ -180,6 +194,12 @@ public class Tax {
         } else if (!adress.equals(other.adress))
             return false;
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Tax [id=" + id + ", code=" + code + ", price=" + price + ", travelCost=" + travelCost + ", adress="
+                + adress + ", date=" + date + ", user=" + user  +"]";
     }
 
     

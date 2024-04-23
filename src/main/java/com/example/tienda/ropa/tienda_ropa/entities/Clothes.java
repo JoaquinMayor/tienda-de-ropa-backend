@@ -213,4 +213,11 @@ public class Clothes {
         return true;
     }
 
+    @Override
+    public String toString() {
+        return "Clothes [id=" + id + ", code=" + code + ", name=" + name + ", size=" + size + ", price=" + price
+                + ", image=" + image + ", description=" + description + ", genericType=" + genericType
+                + ", specificType=" + specificType + ", publication=" + publication + "]";
+    }
+
 }

@@ -20,7 +20,6 @@ public class ClothesSold extends Clothes {
     @ManyToOne
     @JoinColumn(name = "id_tax")
     @JsonIgnore
-    @NotNull
     private Tax tax;
 
     
@@ -74,6 +73,11 @@ public class ClothesSold extends Clothes {
         } else if (!cant.equals(other.cant))
             return false;
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + "ClothesSold [cant=" + cant + tax+ "]";
     }
 
 }
