@@ -22,9 +22,12 @@ public class ClothesStockServices {
     
     @Transactional
     public ClothesStock save(ClothesStock clothe){
-
-        clothe.getImages().forEach(image-> imageRespository.save(image));
-        return clothesRepository.save(clothe);
+       ClothesStock clotheStock = clothesRepository.save(clothe);
+       
+        clothe.getImages().forEach(image-> {
+            image.setClotheStock(clothe);
+            imageRespository.save(image);});
+        return clotheStock;
     }
 
     @Transactional(readOnly = true)

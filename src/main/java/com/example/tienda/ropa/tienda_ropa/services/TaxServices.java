@@ -29,23 +29,19 @@ public class TaxServices {
     @Transactional
     public ResponseEntity<?> save(String idUser, Tax tax){
         Optional<User> optionalUser = userRepository.findById(idUser);
-        System.out.println("Estoy despues del optional");
         if(optionalUser.isPresent()){
-            System.out.println("Entre al if");
             User user = optionalUser.orElseThrow();
             user.setTaxs(tax);
             tax.setUser(user);
             System.out.println(tax.toString());
             taxRepository.save(tax);
             tax.getClothes().forEach(clothe -> {
-                System.out.println("estoy en el foreach");
                 clothe.setTax(tax);
                 clothesRepository.save(clothe);});
             
             
             userRepository.save(user);
             
-            System.out.println("pase el foreach");
             ResponseEntity.status(HttpStatus.CREATED).build();
             
         }
