@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
@@ -21,15 +22,14 @@ public class ClothesSold extends Clothes {
     @JoinColumn(name = "id_tax")
     @JsonIgnore
     private Tax tax;
-
     
     public ClothesSold() {
     }
 
     public ClothesSold(String id, String code, String name, String size,
-            Double price, String image, String description, String genericType,
+            Double price, String description, String genericType,
             String specificType, Date publication, Integer cant, Tax tax) {
-        super(id, code, name, size, price, image, description, genericType, specificType, publication);
+        super(id, code, name, size, price, description, genericType, specificType, publication);
         this.cant = cant;
         this.tax = tax;
     }

@@ -1,12 +1,15 @@
 package com.example.tienda.ropa.tienda_ropa.entities;
 
 import java.util.Date;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotEmpty;
@@ -29,7 +32,6 @@ public class Clothes {
     @NotNull
     private Double price;
 
-    private String image;
 
     @NotEmpty
     private String description;
@@ -47,19 +49,19 @@ public class Clothes {
     @NotNull
     private Date publication;
 
+
     
     public Clothes() {
     }
 
     public Clothes(String id,  String code, String name,  String size,
-         Double price, String image,  String description, String genericType,
+         Double price,  String description, String genericType,
          String specificType, Date publication) {
         this.id = id;
         this.code = code;
         this.name = name;
         this.size = size;
         this.price = price;
-        this.image = image;
         this.description = description;
         this.genericType = genericType;
         this.specificType = specificType;
@@ -90,13 +92,6 @@ public class Clothes {
         this.price = price;
     }
 
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
 
     public String getDescription() {
         return description;
@@ -143,7 +138,6 @@ public class Clothes {
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         result = prime * result + ((size == null) ? 0 : size.hashCode());
         result = prime * result + ((price == null) ? 0 : price.hashCode());
-        result = prime * result + ((image == null) ? 0 : image.hashCode());
         result = prime * result + ((description == null) ? 0 : description.hashCode());
         result = prime * result + ((genericType == null) ? 0 : genericType.hashCode());
         result = prime * result + ((specificType == null) ? 0 : specificType.hashCode());
@@ -185,11 +179,6 @@ public class Clothes {
                 return false;
         } else if (!price.equals(other.price))
             return false;
-        if (image == null) {
-            if (other.image != null)
-                return false;
-        } else if (!image.equals(other.image))
-            return false;
         if (description == null) {
             if (other.description != null)
                 return false;
@@ -216,7 +205,7 @@ public class Clothes {
     @Override
     public String toString() {
         return "Clothes [id=" + id + ", code=" + code + ", name=" + name + ", size=" + size + ", price=" + price
-                + ", image=" + image + ", description=" + description + ", genericType=" + genericType
+                + ", description=" + description + ", genericType=" + genericType
                 + ", specificType=" + specificType + ", publication=" + publication + "]";
     }
 

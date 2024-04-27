@@ -9,15 +9,21 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.tienda.ropa.tienda_ropa.entities.ClothesStock;
 import com.example.tienda.ropa.tienda_ropa.repositories.IClothesStockRepository;
+import com.example.tienda.ropa.tienda_ropa.repositories.IImageRespository;
 
 @Service
 public class ClothesStockServices {
 
     @Autowired
     private IClothesStockRepository clothesRepository;
+
+    @Autowired
+    private IImageRespository imageRespository;
     
     @Transactional
     public ClothesStock save(ClothesStock clothe){
+
+        clothe.getImages().forEach(image-> imageRespository.save(image));
         return clothesRepository.save(clothe);
     }
 
