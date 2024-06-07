@@ -36,7 +36,7 @@ public class ClothesStockController implements IValidation{
     @GetMapping
     public ResponseEntity<?> findAll(){
         if(!clothesService.findAll().isEmpty()){
-            return ResponseEntity.ok(clothesService.findAll());
+            return ResponseEntity.status(HttpStatus.OK).body(clothesService.findAll());
         }
         return ResponseEntity.notFound().build();
     }
@@ -53,9 +53,9 @@ public class ClothesStockController implements IValidation{
     @GetMapping("/code/{code}")
     public ResponseEntity<?> findByCode(@PathVariable String code){
         
-        Optional<ClothesStock> optionalClothe = clothesService.findByCode(code);
-        if(optionalClothe.isPresent()){
-            return ResponseEntity.ok(optionalClothe.orElseThrow());
+        Set<ClothesStock> clothes = clothesService.findByCode(code);
+        if(!clothes.isEmpty()){
+            return ResponseEntity.ok(clothes);
         }
         return ResponseEntity.notFound().build();
     }

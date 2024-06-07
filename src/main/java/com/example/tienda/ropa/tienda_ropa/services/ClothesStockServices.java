@@ -36,7 +36,7 @@ public class ClothesStockServices {
     }
 
     @Transactional(readOnly = true)
-    public Optional<ClothesStock> findByCode(String code){
+    public Set<ClothesStock> findByCode(String code){
         return clothesRepository.findByCode(code);
     }
 

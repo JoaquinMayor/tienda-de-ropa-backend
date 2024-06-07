@@ -15,7 +15,8 @@ public interface IClothesStockRepository extends CrudRepository<ClothesStock,Str
     @SuppressWarnings("null")
     Set<ClothesStock> findAll();
 
-    Optional<ClothesStock> findByCode(String code);
+    @Query("select cs from ClothesStock cs left join fetch cs.images where cs.code = ?1")
+    Set<ClothesStock> findByCode(String code);
 
     @Query("SELECT cs FROM ClothesStock cs WHERE " +
     "(:name IS NULL OR :name = '' OR cs.name LIKE %:name%) AND " +

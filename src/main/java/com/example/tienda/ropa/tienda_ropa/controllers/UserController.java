@@ -28,49 +28,49 @@ import jakarta.validation.Valid;
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/users")
-public class UserController implements IValidation{
-    
+public class UserController implements IValidation {
+
     @Autowired
     private UserService userService;
 
-
     @GetMapping
-    public ResponseEntity<?> list(){
-       if(!userService.findAll().isEmpty()){
+    public ResponseEntity<?> list() {
+        if (!userService.findAll().isEmpty()) {
             return ResponseEntity.ok(userService.findAll());
         }
-        
+
         return ResponseEntity.notFound().build();
     }
 
     @PostMapping("/{password}")
-    public ResponseEntity<?> create(@PathVariable String password, @Valid @RequestBody UserDto user,  BindingResult result){
-        if(result.hasFieldErrors()){
+    public ResponseEntity<?> create(@PathVariable String password, @Valid @RequestBody UserDto user,
+            BindingResult result) {
+        if (result.hasFieldErrors()) {
             return validation(result);
         }
-        User userNew = userService.save(user,password);
+        User userNew = userService.save(user, password);
         return ResponseEntity.status(HttpStatus.CREATED).body(userNew);
     }
 
     @PutMapping("/update")
-    public ResponseEntity<?> update(@Valid @RequestBody UserDto user, BindingResult result){
-        if(result.hasFieldErrors()){
+    public ResponseEntity<?> update(@Valid @RequestBody UserDto user, BindingResult result) {
+        if (result.hasFieldErrors()) {
             return validation(result);
         }
 
         return userService.update(user);
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @PutMapping("/updatePassword/{id}/{password}")
-    public ResponseEntity<?> updatePassword(@PathVariable String id, @PathVariable String password){
-        
+    public ResponseEntity<?> updatePassword(@PathVariable String id, @PathVariable String password) {
         return userService.updatePassword(id, password);
-    } 
+    }
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<?> findById(@PathVariable String id){
-        Optional<User> userOptional= userService.findById(id);
-        if(userOptional.isPresent()){
+    public ResponseEntity<?> findById(@PathVariable String id) {
+        Optional<User> userOptional = userService.findById(id);
+        if (userOptional.isPresent()) {
             return ResponseEntity.ok(userOptional.orElseThrow());
         }
 
@@ -78,9 +78,9 @@ public class UserController implements IValidation{
     }
 
     @GetMapping("/email/{email}")
-    public ResponseEntity<?> findByEmail(@PathVariable String email){
-        Optional<User> userOptional= userService.findByEmail(email);
-        if(userOptional.isPresent()){
+    public ResponseEntity<?> findByEmail(@PathVariable String email) {
+        Optional<User> userOptional = userService.findByEmail(email);
+        if (userOptional.isPresent()) {
             return ResponseEntity.ok(userOptional.orElseThrow());
         }
 
@@ -88,9 +88,9 @@ public class UserController implements IValidation{
     }
 
     @GetMapping("/lastname/{lastname}")
-    public ResponseEntity<?> findByLastname(@PathVariable String lastname){
-        Set<User> users= userService.findByLastname(lastname);
-        if(!users.isEmpty()){
+    public ResponseEntity<?> findByLastname(@PathVariable String lastname) {
+        Set<User> users = userService.findByLastname(lastname);
+        if (!users.isEmpty()) {
             return ResponseEntity.ok(users);
         }
 
@@ -100,11 +100,10 @@ public class UserController implements IValidation{
     @Override
     public ResponseEntity<Map<String, String>> validation(BindingResult result) {
         Map<String, String> errors = new HashMap<>();
-        result.getFieldErrors().forEach(err ->{ 
+        result.getFieldErrors().forEach(err -> {
             errors.put(err.getField(), "El campo " + err.getField() + " " + err.getDefaultMessage());
         });
-        return ResponseEntity.badRequest().body(errors); 
+        return ResponseEntity.badRequest().body(errors);
     }
-
 
 }
