@@ -42,9 +42,10 @@ public class TaxServices {
             
             userRepository.save(user);
             
-            ResponseEntity.status(HttpStatus.CREATED).build();
+            return ResponseEntity.status(HttpStatus.CREATED).build();
             
         }
+       
        return ResponseEntity.notFound().build();
     }
 
