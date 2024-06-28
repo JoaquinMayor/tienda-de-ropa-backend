@@ -2,8 +2,10 @@ package com.example.tienda.ropa.tienda_ropa.repositories;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.example.tienda.ropa.tienda_ropa.entities.ClothesSold;
+import com.example.tienda.ropa.tienda_ropa.entities.ClotheSold;
+import org.springframework.stereotype.Repository;
 
-public interface IClothesSoldRepository extends CrudRepository<ClothesSold, String>{
+@Repository
+public interface IClothesSoldRepository extends CrudRepository<ClotheSold, String>{
 
 }

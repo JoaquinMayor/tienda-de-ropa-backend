@@ -1,8 +1,6 @@
 package com.example.tienda.ropa.tienda_ropa.services;
 
-import java.util.Date;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +14,8 @@ import com.example.tienda.ropa.tienda_ropa.repositories.IClothesSoldRepository;
 import com.example.tienda.ropa.tienda_ropa.repositories.ITaxRepository;
 import com.example.tienda.ropa.tienda_ropa.repositories.IUserRepository;
 
+import javax.ws.rs.core.Response;
+
 @Service
 public class TaxServices {
     
@@ -28,12 +28,13 @@ public class TaxServices {
     
     @Transactional
     public ResponseEntity<?> save(String idUser, Tax tax){
+        Map<String, Object> response = new HashMap<>();
         Optional<User> optionalUser = userRepository.findById(idUser);
         if(optionalUser.isPresent()){
             User user = optionalUser.orElseThrow();
             user.setTaxs(tax);
             tax.setUser(user);
-            System.out.println(tax.toString());
+
             taxRepository.save(tax);
             tax.getClothes().forEach(clothe -> {
                 clothe.setTax(tax);
@@ -41,27 +42,59 @@ public class TaxServices {
             
             
             userRepository.save(user);
-            
-            return ResponseEntity.status(HttpStatus.CREATED).build();
+
+            response.put("tax", tax);
+            response.put("messege", "Factura creado con éxito");
+            response.put("status", 201);
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
             
         }
-       
-       return ResponseEntity.notFound().build();
+        response.put("messege", "Usuario no encontrado");
+        response.put("status", 404);
+       return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 
     @Transactional
-    public Set<Tax> findAll(){
-        return taxRepository.findAll();
+    public ResponseEntity<?> findAll(){
+        Map<String, Object> response = new HashMap<>();
+        Set<Tax> taxs = taxRepository.findAll();
+        response.put("taxs", taxs);
+        response.put("messege", "Facturas encontradas con éxito");
+        response.put("status", 200);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @Transactional(readOnly = true)
-    public Optional<Tax> findByCode(String code){
-        return taxRepository.findByCode(code);
+    public ResponseEntity<?> findByCode(String code){
+
+        Map<String, Object> response = new HashMap<>();
+        Optional<Tax> taxOptional = taxRepository.findByCode(code);
+        if(taxOptional.isPresent()){
+            response.put("tax", taxOptional.get());
+            response.put("messege", "Factura encontrado");
+            response.put("status", 200);
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        }else{
+            response.put("messege", "Factura no encontrado");
+            response.put("status", 404);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        }
     }
 
     @Transactional(readOnly = true)
-    public Set<Tax> findByDate(Date date){
-        return taxRepository.findByDate(date);
+    public ResponseEntity<?> findByDate(Date date){
+        Map<String, Object> response = new HashMap<>();
+        Set<Tax> taxs = taxRepository.findByDate(date);
+        if(!taxs.isEmpty()){
+            response.put("user", taxs);
+            response.put("messege", "Facturas encontradas con éxito");
+            response.put("status", 200);
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        }else{
+            response.put("messege", "Facuras no encontradas");
+            response.put("status", 404);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        }
     }
 
 }

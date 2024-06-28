@@ -12,7 +12,7 @@ import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "clothesStock", uniqueConstraints = @UniqueConstraint(columnNames = "code"))
-public class ClothesStock extends Clothes {
+public class ClotheStock extends Clothe {
 
     @NotNull
     private Integer stock;
@@ -21,12 +21,12 @@ public class ClothesStock extends Clothes {
     private Set<Image> images;
 
     
-    public ClothesStock() {
+    public ClotheStock() {
     }
 
-    public ClothesStock(String id, String code, String name, String size,
-            Double price, String description, String genericType,
-            String specificType, Date publication, Integer stock) {
+    public ClotheStock(String id, String code, String name, String size,
+                       Double price, String description, String genericType,
+                       String specificType, Date publication, Integer stock) {
         super(id, code, name, size, price, description, genericType, specificType, publication);
         this.stock = stock;
     }

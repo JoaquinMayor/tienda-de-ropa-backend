@@ -1,6 +1,8 @@
 package com.example.tienda.ropa.tienda_ropa.entities;
 
 import java.util.HashSet;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -41,6 +43,14 @@ public class User {
     @NotEmpty
     private String image;
 
+    @ManyToMany
+    @JoinTable(
+            name="whishesxusers",
+            joinColumns = @JoinColumn(name = "id_user"),
+            inverseJoinColumns = @JoinColumn(name = "id_wish"),
+            uniqueConstraints = {@UniqueConstraint(columnNames = {"id_user", "id_wish"})}
+    )
+    private Set<Wish> wisheList;
     
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
     private Set<Tax> taxs;
@@ -58,6 +68,9 @@ public class User {
 
 
     public User() {
+        this.taxs = new HashSet<>();
+        this.roles = new HashSet<>();
+        this.wisheList = new HashSet<>();
     }
     
     public User(String id, String name, String lastname, String email, String tel, String password,
@@ -71,6 +84,7 @@ public class User {
         this.image = image;
         this.taxs = new HashSet<>();
         this.roles = new HashSet<>();
+        this.wisheList = new HashSet<>();
     }
 
     
@@ -157,70 +171,37 @@ public class User {
         return taxs;
     }
 
+    public void setTaxs(Set<Tax> taxs) {
+        this.taxs = taxs;
+    }
 
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public Set<Wish> getWisheList() {
+        return wisheList;
+    }
+
+    public void setWisheList(Set<Wish> wisheList) {
+        this.wisheList = wisheList;
+    }
+
+    public void setWish(Wish wish) {
+        this.wisheList.add(wish);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id) && Objects.equals(email, user.email);
+    }
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + ((lastname == null) ? 0 : lastname.hashCode());
-        result = prime * result + ((email == null) ? 0 : email.hashCode());
-        result = prime * result + ((tel == null) ? 0 : tel.hashCode());
-        result = prime * result + ((password == null) ? 0 : password.hashCode());
-        result = prime * result + ((image == null) ? 0 : image.hashCode());
-        return result;
+        return Objects.hash(id, email);
     }
 
-
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        User other = (User) obj;
-        if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
-        if (name == null) {
-            if (other.name != null)
-                return false;
-        } else if (!name.equals(other.name))
-            return false;
-        if (lastname == null) {
-            if (other.lastname != null)
-                return false;
-        } else if (!lastname.equals(other.lastname))
-            return false;
-        if (email == null) {
-            if (other.email != null)
-                return false;
-        } else if (!email.equals(other.email))
-            return false;
-        if (tel == null) {
-            if (other.tel != null)
-                return false;
-        } else if (!tel.equals(other.tel))
-            return false;
-        if (password == null) {
-            if (other.password != null)
-                return false;
-        } else if (!password.equals(other.password))
-            return false;
-        if (image == null) {
-            if (other.image != null)
-                return false;
-        } else if (!image.equals(other.image))
-            return false;
-        return true;
-    }
-
-    
 }

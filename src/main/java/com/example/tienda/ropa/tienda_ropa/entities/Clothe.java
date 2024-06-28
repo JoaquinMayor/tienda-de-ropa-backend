@@ -1,22 +1,20 @@
 package com.example.tienda.ropa.tienda_ropa.entities;
 
 import java.util.Date;
-import java.util.Set;
+
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 @MappedSuperclass
-public class Clothes {
+public class Clothe {
     @Id
     private String id;
 
@@ -51,12 +49,12 @@ public class Clothes {
 
 
     
-    public Clothes() {
+    public Clothe() {
     }
 
-    public Clothes(String id,  String code, String name,  String size,
-         Double price,  String description, String genericType,
-         String specificType, Date publication) {
+    public Clothe(String id, String code, String name, String size,
+                  Double price, String description, String genericType,
+                  String specificType, Date publication) {
         this.id = id;
         this.code = code;
         this.name = name;
@@ -153,7 +151,7 @@ public class Clothes {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Clothes other = (Clothes) obj;
+        Clothe other = (Clothe) obj;
         if (id == null) {
             if (other.id != null)
                 return false;

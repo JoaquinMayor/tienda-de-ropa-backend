@@ -6,7 +6,9 @@ import java.util.Set;
 import org.springframework.data.repository.CrudRepository;
 
 import com.example.tienda.ropa.tienda_ropa.entities.User;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface IUserRepository extends CrudRepository<User, String>{
 
     @SuppressWarnings("null")

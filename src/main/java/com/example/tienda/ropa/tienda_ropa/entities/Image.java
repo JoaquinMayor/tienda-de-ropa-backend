@@ -22,7 +22,7 @@ public class Image {
     @ManyToOne
     @JoinColumn(name = "id_clothes_stock")
     @JsonIgnore
-    private ClothesStock clotheStock;
+    private ClotheStock clotheStock;
 
     
     public Image() {
@@ -82,11 +82,11 @@ public class Image {
         return true;
     }
 
-    public ClothesStock getClotheStock() {
+    public ClotheStock getClotheStock() {
         return clotheStock;
     }
 
-    public void setClotheStock(ClothesStock clotheStock) {
+    public void setClotheStock(ClotheStock clotheStock) {
         this.clotheStock = clotheStock;
     }
 

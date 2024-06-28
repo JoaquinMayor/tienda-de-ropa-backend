@@ -5,18 +5,12 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
+import com.example.tienda.ropa.tienda_ropa.entities.Wish;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.tienda.ropa.tienda_ropa.Interface.IValidation;
 import com.example.tienda.ropa.tienda_ropa.entities.User;
@@ -35,11 +29,7 @@ public class UserController implements IValidation {
 
     @GetMapping
     public ResponseEntity<?> list() {
-        if (!userService.findAll().isEmpty()) {
-            return ResponseEntity.ok(userService.findAll());
-        }
-
-        return ResponseEntity.notFound().build();
+        return this.userService.findAll();
     }
 
     @PostMapping("/{password}")
@@ -48,8 +38,8 @@ public class UserController implements IValidation {
         if (result.hasFieldErrors()) {
             return validation(result);
         }
-        User userNew = userService.save(user, password);
-        return ResponseEntity.status(HttpStatus.CREATED).body(userNew);
+
+        return this.userService.save(user, password);
     }
 
     @PutMapping("/update")
@@ -69,32 +59,31 @@ public class UserController implements IValidation {
 
     @GetMapping("/id/{id}")
     public ResponseEntity<?> findById(@PathVariable String id) {
-        Optional<User> userOptional = userService.findById(id);
-        if (userOptional.isPresent()) {
-            return ResponseEntity.ok(userOptional.orElseThrow());
-        }
-
-        return ResponseEntity.notFound().build();
+        return this.userService.findById(id);
     }
 
     @GetMapping("/email/{email}")
     public ResponseEntity<?> findByEmail(@PathVariable String email) {
-        Optional<User> userOptional = userService.findByEmail(email);
-        if (userOptional.isPresent()) {
-            return ResponseEntity.ok(userOptional.orElseThrow());
-        }
-
-        return ResponseEntity.notFound().build();
+        return this.userService.findByEmail(email);
     }
 
     @GetMapping("/lastname/{lastname}")
     public ResponseEntity<?> findByLastname(@PathVariable String lastname) {
-        Set<User> users = userService.findByLastname(lastname);
-        if (!users.isEmpty()) {
-            return ResponseEntity.ok(users);
+        return this.userService.findByLastname(lastname);
+    }
+    //El id del wish tiene que ser el mismo que el de la prenda al cual pertenece
+    @PutMapping("/wish/{id}")
+    public ResponseEntity<?> addWish(@PathVariable String id, @RequestBody Wish wish, BindingResult result) {
+        if (result.hasFieldErrors()) {
+            return validation(result);
         }
+        return this.userService.addWish(id, wish);
 
-        return ResponseEntity.notFound().build();
+    }
+
+    @DeleteMapping("/wish/delete/{idUser}/{idWish}")
+    public ResponseEntity<?> deleteWish(@PathVariable String idUSer, @PathVariable String idWish){
+        return this.userService.deleteWish(idUSer, idWish);
     }
 
     @Override

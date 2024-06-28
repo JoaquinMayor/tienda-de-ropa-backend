@@ -52,7 +52,7 @@ public class Tax {
     private Date date;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,mappedBy = "tax")
-    private Set<ClothesSold> clothes;
+    private Set<ClotheSold> clothes;
 
     @JsonIgnore
     @ManyToOne
@@ -81,7 +81,7 @@ public class Tax {
         return id;
     }
 
-    public Set<ClothesSold> getClothes() {
+    public Set<ClotheSold> getClothes() {
         return clothes;
     }
 

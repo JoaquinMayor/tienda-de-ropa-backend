@@ -36,10 +36,7 @@ public class TaxController implements IValidation{
     
     @GetMapping
     public ResponseEntity<?> findAll(){
-        if(!taxServices.findAll().isEmpty()){
-            return ResponseEntity.ok(taxServices.findAll());
-        }
-        return ResponseEntity.notFound().build();
+        return this.taxServices.findAll();
     }
 
     @PostMapping(path = "/{idUser}", consumes = "application/json;charset=UTF-8")
@@ -53,20 +50,12 @@ public class TaxController implements IValidation{
 
     @GetMapping("/code/{code}")
     public ResponseEntity<?> findByCode(@PathVariable String code){
-        Optional<Tax> optionalTax = taxServices.findByCode(code);
-        if(optionalTax.isPresent()){
-            return ResponseEntity.ok(optionalTax.orElseThrow());
-        }
-        return ResponseEntity.notFound().build();
+        return this.taxServices.findByCode(code);
     }
 
     @GetMapping("/date")
     public ResponseEntity<?> findByDate(@RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") Date date){
-        Set<Tax> taxs = taxServices.findByDate(date);
-        if(!taxs.isEmpty()){
-            return ResponseEntity.ok(taxs);
-        }
-        return ResponseEntity.notFound().build();
+        return this.taxServices.findByDate(date);
     }
     
     @Override

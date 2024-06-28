@@ -2,7 +2,6 @@ package com.example.tienda.ropa.tienda_ropa.controllers;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.tienda.ropa.tienda_ropa.Interface.IValidation;
-import com.example.tienda.ropa.tienda_ropa.entities.ClothesStock;
+import com.example.tienda.ropa.tienda_ropa.entities.ClotheStock;
 import com.example.tienda.ropa.tienda_ropa.services.ClothesStockServices;
 
 import jakarta.validation.Valid;
@@ -35,38 +34,25 @@ public class ClothesStockController implements IValidation{
 
     @GetMapping
     public ResponseEntity<?> findAll(){
-        if(!clothesService.findAll().isEmpty()){
-            return ResponseEntity.status(HttpStatus.OK).body(clothesService.findAll());
-        }
-        return ResponseEntity.notFound().build();
+        return this.clothesService.findAll();
     }
 
     @PostMapping
-    public ResponseEntity<?> createUpdate(@Valid @RequestBody ClothesStock clothe, BindingResult result){
+    public ResponseEntity<?> createUpdate(@Valid @RequestBody ClotheStock clothe, BindingResult result){
         if(result.hasFieldErrors()){
             return validation(result);
         }
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(clothesService.save(clothe));
+        return this.clothesService.save(clothe);
     }
 
     @GetMapping("/code/{code}")
     public ResponseEntity<?> findByCode(@PathVariable String code){
-        
-        Set<ClothesStock> clothes = clothesService.findByCode(code);
-        if(!clothes.isEmpty()){
-            return ResponseEntity.ok(clothes);
-        }
-        return ResponseEntity.notFound().build();
+        return this.clothesService.findByCode(code);
     }
 
     @GetMapping("/find")
     public ResponseEntity<?> findClothesByParameters(@RequestParam(required = false) String name, @RequestParam(required = false) String size, @RequestParam(required = false) Float priceMin, @RequestParam(required = false) Float priceMax, @RequestParam(required = false) String genericType, @RequestParam(required = false) String specificType){
-        Set<ClothesStock> clothes = clothesService.findByParams(name, size, priceMin, priceMax, genericType, specificType);
-        if(!clothes.isEmpty()){
-            return ResponseEntity.ok(clothes);
-        }
-        return ResponseEntity.notFound().build();
+        return this.clothesService.findByParams(name, size, priceMin, priceMax, genericType, specificType);
     }
 
     @Override

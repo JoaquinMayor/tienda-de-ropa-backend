@@ -13,7 +13,7 @@ import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "clothesSold")
-public class ClothesSold extends Clothes {
+public class ClotheSold extends Clothe {
 
     @NotNull
     private Integer cant;
@@ -23,12 +23,12 @@ public class ClothesSold extends Clothes {
     @JsonIgnore
     private Tax tax;
     
-    public ClothesSold() {
+    public ClotheSold() {
     }
 
-    public ClothesSold(String id, String code, String name, String size,
-            Double price, String description, String genericType,
-            String specificType, Date publication, Integer cant, Tax tax) {
+    public ClotheSold(String id, String code, String name, String size,
+                      Double price, String description, String genericType,
+                      String specificType, Date publication, Integer cant, Tax tax) {
         super(id, code, name, size, price, description, genericType, specificType, publication);
         this.cant = cant;
         this.tax = tax;
@@ -66,7 +66,7 @@ public class ClothesSold extends Clothes {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        ClothesSold other = (ClothesSold) obj;
+        ClotheSold other = (ClotheSold) obj;
         if (cant == null) {
             if (other.cant != null)
                 return false;
