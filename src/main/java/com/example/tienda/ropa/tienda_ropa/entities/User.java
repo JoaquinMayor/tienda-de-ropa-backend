@@ -1,7 +1,6 @@
 package com.example.tienda.ropa.tienda_ropa.entities;
 
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
@@ -51,6 +50,9 @@ public class User {
             uniqueConstraints = {@UniqueConstraint(columnNames = {"id_user", "id_wish"})}
     )
     private Set<Wish> wisheList;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
+    private Set<Comment> comments;
     
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
     private Set<Tax> taxs;
@@ -71,6 +73,7 @@ public class User {
         this.taxs = new HashSet<>();
         this.roles = new HashSet<>();
         this.wisheList = new HashSet<>();
+        this.comments = new HashSet<>();
     }
     
     public User(String id, String name, String lastname, String email, String tel, String password,
@@ -155,16 +158,14 @@ public class User {
 
 
 
-    public void setTaxs(Tax tax) {
+    public void setTax(Tax tax) {
         this.taxs.add(tax);
     }
-
 
 
     public String getPassword() {
         return password;
     }
-
 
 
     public Set<Tax> getTaxs() {
@@ -189,6 +190,18 @@ public class User {
 
     public void setWish(Wish wish) {
         this.wisheList.add(wish);
+    }
+
+    public Set<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public void setComment(Comment comment){
+        this.comments.add(comment);
     }
 
     @Override

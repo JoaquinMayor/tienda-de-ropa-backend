@@ -3,6 +3,7 @@ package com.example.tienda.ropa.tienda_ropa.services;
 
 import java.util.*;
 
+import com.example.tienda.ropa.tienda_ropa.classes.ResponseEntityGenerator;
 import com.example.tienda.ropa.tienda_ropa.entities.Tax;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,64 +28,42 @@ public class ClothesStockServices {
     
     @Transactional
     public ResponseEntity<?> save(ClotheStock clothe){
-        Map<String, Object> response = new HashMap<>();
        ClotheStock clotheStock = clothesRepository.save(clothe);
        
         clothe.getImages().forEach(image-> {
             image.setClotheStock(clothe);
             imageRespository.save(image);});
 
-        response.put("clothe", clotheStock);
-        response.put("messege", "Prenda creada con éxito");
-        response.put("status", 201);
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+        return ResponseEntityGenerator.genetateResponseEntity("Prenda creada con éxito",201,clotheStock);
     }
 
     @Transactional(readOnly = true)
     public ResponseEntity<?> findAll(){
-        Map<String, Object> response = new HashMap<>();
         Set<ClotheStock> clothes = clothesRepository.findAll();
         if(!clothes.isEmpty()) {
-            response.put("clothes", clothes);
-            response.put("messege", "Prendas encontradas con éxito");
-            response.put("status", 200);
-            return ResponseEntity.status(HttpStatus.OK).body(response);
+            return ResponseEntityGenerator.genetateResponseEntity("Prendas encontradas con éxito",200,clothes);
         }else{
-            response.put("messege", "No se encontraron prendas");
-            response.put("status", 404);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+            return ResponseEntityGenerator.genetateResponseEntity("No se encontraron prendas",404,null);
         }
     }
 
     @Transactional(readOnly = true)
     public ResponseEntity<?> findByCode(String code){
-        Map<String, Object> response = new HashMap<>();
         Set<ClotheStock> clothes = clothesRepository.findByCode(code);
         if(!clothes.isEmpty()){
-            response.put("clothes", clothes);
-            response.put("messege", "Prendas encontradas con éxito");
-            response.put("status", 200);
-            return ResponseEntity.status(HttpStatus.OK).body(response);
+            return ResponseEntityGenerator.genetateResponseEntity("Prendas encontradas con éxito",200,clothes);
         }else{
-            response.put("messege", "Prendas no encontradas");
-            response.put("status", 404);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+            return ResponseEntityGenerator.genetateResponseEntity("Prendas no encontradas",404,null);
         }
     }
 
     @Transactional(readOnly = true)
     public ResponseEntity<?> findByParams(String name, String size, Float priceMin, Float priceMax, String genericType, String specificType){
-        Map<String, Object> response = new HashMap<>();
         Set<ClotheStock> clothes = clothesRepository.findByParameters(name, size, priceMin,priceMax, genericType, specificType);
         if(!clothes.isEmpty()) {
-            response.put("clothes", clothes);
-            response.put("messege", "Prendas encontradas con éxito");
-            response.put("status", 200);
-            return ResponseEntity.status(HttpStatus.OK).body(response);
+            return ResponseEntityGenerator.genetateResponseEntity("Prendas encontradas con éxito",200,clothes);
         }else{
-            response.put("messege", "No se encontraron prendas");
-            response.put("status", 404);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+            return ResponseEntityGenerator.genetateResponseEntity("No se encontraron prendas",404,null);
         }
     }
 

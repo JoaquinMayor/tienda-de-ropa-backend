@@ -1,22 +1,20 @@
 package com.example.tienda.ropa.tienda_ropa.services;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
+import com.example.tienda.ropa.tienda_ropa.classes.ResponseEntityGenerator;
 import com.example.tienda.ropa.tienda_ropa.entities.Wish;
 import com.example.tienda.ropa.tienda_ropa.repositories.IWishReposotory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.support.Repositories;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 //import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.example.tienda.ropa.tienda_ropa.entities.Role;
 import com.example.tienda.ropa.tienda_ropa.entities.User;
-import com.example.tienda.ropa.tienda_ropa.entities.UserDto;
+import com.example.tienda.ropa.tienda_ropa.classes.UserDto;
 import com.example.tienda.ropa.tienda_ropa.repositories.IRoleRepository;
 import com.example.tienda.ropa.tienda_ropa.repositories.IUserRepository;
 
@@ -39,72 +37,46 @@ public class UserService {
 
     @Transactional
     public ResponseEntity<?> save(UserDto userDto, String password){
-        Map<String, Object> response = new HashMap<>();
         Optional<Role> optionalRole = roleRepository.findByName("ROLE_USER");
        // String passwordEncoded = passwordEncoder.encode(password);
         User user = new User(userDto.getId(),userDto.getName(),userDto.getLastname(),userDto.getEmail(),userDto.getTel(),password, userDto.getImage());
         user.setRole(optionalRole.orElseThrow());
-        response.put("user", user);
-        response.put("messege", "Usuario creado con éxito");
-        response.put("status", 201);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        return ResponseEntityGenerator.genetateResponseEntity("Usuario creado con éxito",201,user);
     }
 
     @Transactional(readOnly = true)
     public ResponseEntity<?> findAll(){
-        Map<String, Object> response = new HashMap<>();
         Set<User> users = userRepository.findAll();
-        response.put("users", users);
-        response.put("messege", "Usuarios encontrados con éxito");
-        response.put("status", 200);
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+        return ResponseEntityGenerator.genetateResponseEntity("Usuarios encontrados con éxito",200,users);
     }
 
     @Transactional(readOnly = true)
     public ResponseEntity<?> findById(String id){
-        Map<String, Object> response = new HashMap<>();
         Optional<User> userOptional = userRepository.findById(id);
         if(userOptional.isPresent()){
-            response.put("user", userOptional.get());
-            response.put("messege", "Usuario encontrado");
-            response.put("status", 200);
-            return ResponseEntity.status(HttpStatus.OK).body(response);
+            return ResponseEntityGenerator.genetateResponseEntity("Usuario encontrado",200,userOptional.orElseThrow());
         }else{
-            response.put("messege", "Usuario no encontrado");
-            response.put("status", 404);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+            return ResponseEntityGenerator.genetateResponseEntity("Usuario no encontrado",404,null);
         }
     }
 
     @Transactional(readOnly = true)
     public ResponseEntity<?> findByEmail(String email){
-        Map<String, Object> response = new HashMap<>();
         Optional<User> userOptional = userRepository.findByEmail(email);
         if(userOptional.isPresent()){
-            response.put("user", userOptional.get());
-            response.put("messege", "Usuario encontrado");
-            response.put("status", 200);
-            return ResponseEntity.status(HttpStatus.OK).body(response);
+            return ResponseEntityGenerator.genetateResponseEntity("Usuario encontrado",200,userOptional.orElseThrow());
         }else{
-            response.put("messege", "Usuario no encontrado");
-            response.put("status", 404);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+            return ResponseEntityGenerator.genetateResponseEntity("Usuario no encontrado",404,null);
         }
     }
 
     @Transactional(readOnly = true)
     public ResponseEntity<?> findByLastname(String lastname){
-        Map<String, Object> response = new HashMap<>();
         Set<User> users = userRepository.findByLastname(lastname);
         if(!users.isEmpty()){
-            response.put("user", users);
-            response.put("messege", "Usuario encontrado");
-            response.put("status", 200);
-            return ResponseEntity.status(HttpStatus.OK).body(response);
+            return ResponseEntityGenerator.genetateResponseEntity("Usuario encontrado",200,users);
         }else{
-            response.put("messege", "Usuario no encontrado");
-            response.put("status", 404);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+            return ResponseEntityGenerator.genetateResponseEntity("Usuario no encontrado",404,null);
         }
 
     }
@@ -112,7 +84,6 @@ public class UserService {
     @Transactional
     public ResponseEntity<?> update(UserDto userDto){
         Optional<User> userOptional  = userRepository.findById(userDto.getId());
-        Map<String, Object> response = new HashMap<>();
         if(userOptional.isPresent()){
             User user = userOptional.get();
             user.setEmail(userDto.getEmail());
@@ -121,14 +92,9 @@ public class UserService {
             user.setName(userDto.getName());
             user.setTel(userDto.getTel());
             userRepository.save(user);
-            response.put("user", user);
-            response.put("status", 201);
-            response.put("message", "Usuario actualizado con éxito");
-            return ResponseEntity.status(HttpStatus.CREATED).body(user);
+            return ResponseEntityGenerator.genetateResponseEntity("Usuario actualizado con éxito",201,user);
         }else{
-            response.put("status", 404);
-            response.put("message", "Usuario no encontrado");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+            return ResponseEntityGenerator.genetateResponseEntity("Usuario no encontrado",404,null);
         }
 
     }
@@ -141,35 +107,31 @@ public class UserService {
             User user = userOptional.get();
             //String passwordEncoded = passwordEncoder.encode(newPassword);
             user.setPassword(newPassword);
-            return ResponseEntity.status(HttpStatus.CREATED).body(user);
+            return ResponseEntityGenerator.genetateResponseEntity("Contraseña actualizada con éxito",200,user);
+        }else{
+            return ResponseEntityGenerator.genetateResponseEntity("Usuario no encontrado",404,null);
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
     }
 
     @Transactional
     public ResponseEntity<?> addWish(String idUser, Wish wish){
-        Map<String, Object> response = new HashMap<>();
         Optional<User> userOptional = this.userRepository.findById(idUser);
         if(userOptional.isPresent()){
             User user = userOptional.get();
             user.setWish(wish);
             wish.setUser(user);
-            userRepository.save(user);
             wishRepository.save(wish);
-            response.put("status", 201);
-            response.put("message", "Deseo añadido con éxito");
-            return ResponseEntity.status(HttpStatus.CREATED).body(response);
-
+            userRepository.save(user);
+            return ResponseEntityGenerator.genetateResponseEntity("Deseo añadido con éxito",201,wish);
         }else{
-            response.put("status", 404);
-            response.put("message", "Usuario no encontrado");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+            return ResponseEntityGenerator.genetateResponseEntity("Usuario no encontrado",404,null);
         }
     }
 
     @Transactional
     public ResponseEntity<?> deleteWish(String idUser, String idWish){
-        Map<String, Object> response = new HashMap<>();
+
         Optional<User> userOptional = this.userRepository.findById(idUser);
         Optional<Wish> wishOptional = this.wishRepository.findById(idWish);
         if(userOptional.isPresent() && wishOptional.isPresent()) {
@@ -180,14 +142,9 @@ public class UserService {
             userRepository.save(user);
             wishRepository.save(wish);
 
-            response.put("user", user);
-            response.put("status", 200);
-            response.put("message", "Deseo eliminado con éxito");
-            return ResponseEntity.status(HttpStatus.OK).body(response);
+            return ResponseEntityGenerator.genetateResponseEntity("Deseo eliminado con éxito",200,wish);
         }else{
-            response.put("status", 404);
-            response.put("message", "Usuario o deseo no encontrado");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+            return ResponseEntityGenerator.genetateResponseEntity("Deseo no encontrado",404,null);
         }
     }
 }

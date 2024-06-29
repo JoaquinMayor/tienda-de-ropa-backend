@@ -1,6 +1,7 @@
 package com.example.tienda.ropa.tienda_ropa.entities;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 import jakarta.persistence.CascadeType;
@@ -20,6 +21,9 @@ public class ClotheStock extends Clothe {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "clotheStock")
     private Set<Image> images;
 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "clothe")
+    private Set<Comment> comments;
+
     
     public ClotheStock() {
     }
@@ -29,6 +33,8 @@ public class ClotheStock extends Clothe {
                        String specificType, Date publication, Integer stock) {
         super(id, code, name, size, price, description, genericType, specificType, publication);
         this.stock = stock;
+        this.images = new HashSet<>();
+        this.comments = new HashSet<>();
     }
 
     public Integer getStock() {
@@ -47,6 +53,15 @@ public class ClotheStock extends Clothe {
         this.images = images;
     }
 
-    
+    public Set<Comment> getComments() {
+        return comments;
+    }
 
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public void setComment(Comment comment){
+        this.comments.add(comment);
+    }
 }

@@ -2,19 +2,15 @@ package com.example.tienda.ropa.tienda_ropa.controllers;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
 
 import com.example.tienda.ropa.tienda_ropa.entities.Wish;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.tienda.ropa.tienda_ropa.Interface.IValidation;
-import com.example.tienda.ropa.tienda_ropa.entities.User;
-import com.example.tienda.ropa.tienda_ropa.entities.UserDto;
+import com.example.tienda.ropa.tienda_ropa.classes.UserDto;
 import com.example.tienda.ropa.tienda_ropa.services.UserService;
 
 import jakarta.validation.Valid;
@@ -73,7 +69,7 @@ public class UserController implements IValidation {
     }
     //El id del wish tiene que ser el mismo que el de la prenda al cual pertenece
     @PutMapping("/wish/{id}")
-    public ResponseEntity<?> addWish(@PathVariable String id, @RequestBody Wish wish, BindingResult result) {
+    public ResponseEntity<?> addWish(@PathVariable String id, @Valid @RequestBody Wish wish, BindingResult result) {
         if (result.hasFieldErrors()) {
             return validation(result);
         }

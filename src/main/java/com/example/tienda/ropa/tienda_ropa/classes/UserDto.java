@@ -1,4 +1,4 @@
-package com.example.tienda.ropa.tienda_ropa.entities;
+package com.example.tienda.ropa.tienda_ropa.classes;
 
 public class UserDto {
 
