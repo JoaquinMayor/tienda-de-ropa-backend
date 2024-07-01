@@ -14,18 +14,21 @@ public class UserDto {
 
     private String email;
 
+    private Boolean vip;
+
     
     public UserDto() {
     }
 
 
-    public UserDto(String id, String name, String lastname, String tel, String image, String email) {
+    public UserDto(String id, String name, String lastname, String tel, String image, String email, Boolean vip) {
         this.id = id;
         this.name = name;
         this.lastname = lastname;
         this.tel = tel;
         this.image = image;
         this.email = email;
+        this.vip = vip;
     }
 
     
@@ -71,6 +74,14 @@ public class UserDto {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Boolean getVip() {
+        return vip;
+    }
+
+    public void setVip(Boolean vip) {
+        this.vip = vip;
     }
 
     @Override

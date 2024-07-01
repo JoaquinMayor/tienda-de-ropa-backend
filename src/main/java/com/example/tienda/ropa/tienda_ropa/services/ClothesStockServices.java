@@ -15,7 +15,6 @@ import com.example.tienda.ropa.tienda_ropa.entities.ClotheStock;
 import com.example.tienda.ropa.tienda_ropa.repositories.IClothesStockRepository;
 import com.example.tienda.ropa.tienda_ropa.repositories.IImageRespository;
 
-import javax.ws.rs.core.Response;
 
 @Service
 public class ClothesStockServices {

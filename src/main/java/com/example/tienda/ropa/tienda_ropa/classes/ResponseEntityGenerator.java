@@ -2,7 +2,6 @@ package com.example.tienda.ropa.tienda_ropa.classes;
 
 import org.springframework.http.ResponseEntity;
 
-import javax.ws.rs.core.Response;
 import java.util.HashMap;
 import java.util.Map;
 

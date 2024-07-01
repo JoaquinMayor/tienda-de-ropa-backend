@@ -16,6 +16,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.persistence.JoinColumn;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email")})
@@ -41,6 +42,9 @@ public class User {
 
     @NotEmpty
     private String image;
+
+    @NotNull
+    private boolean vip;
 
     @ManyToMany
     @JoinTable(
@@ -77,7 +81,7 @@ public class User {
     }
     
     public User(String id, String name, String lastname, String email, String tel, String password,
-            String image) {
+            String image, boolean vip) {
         this.id = id;
         this.name = name;
         this.lastname = lastname;
@@ -85,6 +89,7 @@ public class User {
         this.tel = tel;
         this.password = password;
         this.image = image;
+        this.vip = vip;
         this.taxs = new HashSet<>();
         this.roles = new HashSet<>();
         this.wisheList = new HashSet<>();
@@ -96,13 +101,17 @@ public class User {
         return id;
     }
 
-
-
     public void setPassword(String password) {
         this.password = password;
     }
 
+    public boolean isVip() {
+        return vip;
+    }
 
+    public void setVip( boolean vip) {
+        this.vip = vip;
+    }
 
     public String getName() {
         return name;
@@ -155,7 +164,6 @@ public class User {
     public void setRole(Role role) {
         this.roles.add(role);
     }
-
 
 
     public void setTax(Tax tax) {

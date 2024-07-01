@@ -39,7 +39,7 @@ public class UserService {
     public ResponseEntity<?> save(UserDto userDto, String password){
         Optional<Role> optionalRole = roleRepository.findByName("ROLE_USER");
        // String passwordEncoded = passwordEncoder.encode(password);
-        User user = new User(userDto.getId(),userDto.getName(),userDto.getLastname(),userDto.getEmail(),userDto.getTel(),password, userDto.getImage());
+        User user = new User(userDto.getId(),userDto.getName(),userDto.getLastname(),userDto.getEmail(),userDto.getTel(),password, userDto.getImage(), userDto.getVip());
         user.setRole(optionalRole.orElseThrow());
         return ResponseEntityGenerator.genetateResponseEntity("Usuario creado con éxito",201,user);
     }
@@ -91,6 +91,7 @@ public class UserService {
             user.setLastname(userDto.getLastname());
             user.setName(userDto.getName());
             user.setTel(userDto.getTel());
+            user.setVip(userDto.getVip());
             userRepository.save(user);
             return ResponseEntityGenerator.genetateResponseEntity("Usuario actualizado con éxito",201,user);
         }else{
