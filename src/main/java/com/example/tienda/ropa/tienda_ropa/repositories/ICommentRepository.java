@@ -7,7 +7,8 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface ICommentRepository extends CrudRepository<Comment,String> {
+public interface ICommentRepository extends CrudRepository<Comment,Long> {
 
+    @SuppressWarnings("null")
     Optional<Comment> findById(Long id);
 }

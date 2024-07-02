@@ -7,7 +7,6 @@ import com.example.tienda.ropa.tienda_ropa.classes.ResponseEntityGenerator;
 import com.example.tienda.ropa.tienda_ropa.entities.Wish;
 import com.example.tienda.ropa.tienda_ropa.repositories.IWishReposotory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.support.Repositories;
 import org.springframework.http.ResponseEntity;
 //import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -29,8 +28,7 @@ public class UserService {
 
     @Autowired
     private IWishReposotory wishRepository;
-    @Autowired
-    private Repositories repositories;
+
 
    /*  @Autowired
     private PasswordEncoder passwordEncoder;*/

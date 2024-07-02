@@ -4,9 +4,7 @@ package com.example.tienda.ropa.tienda_ropa.services;
 import java.util.*;
 
 import com.example.tienda.ropa.tienda_ropa.classes.ResponseEntityGenerator;
-import com.example.tienda.ropa.tienda_ropa.entities.Tax;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
