@@ -34,6 +34,11 @@ public class CommentController implements IValidation {
         return this.commentService.deleteComment(id);
     }
 
+    @GetMapping("/find/{idClothe}")
+    public ResponseEntity<?> findComments(@PathVariable String idClothe){
+        return this.commentService.findCommentsByClothe(idClothe);
+    }
+
     @Override
     public ResponseEntity<Map<String, String>> validation(BindingResult result) {
         Map<String, String> errors = new HashMap<>();
@@ -42,4 +47,6 @@ public class CommentController implements IValidation {
         });
         return ResponseEntity.badRequest().body(errors);
     }
+
+
 }

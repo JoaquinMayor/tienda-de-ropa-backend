@@ -3,7 +3,13 @@ package com.example.tienda.ropa.tienda_ropa.services;
 
 import java.util.*;
 
+import com.example.tienda.ropa.tienda_ropa.classes.ClothePubli;
+import com.example.tienda.ropa.tienda_ropa.classes.EmailDTO;
 import com.example.tienda.ropa.tienda_ropa.classes.ResponseEntityGenerator;
+import com.example.tienda.ropa.tienda_ropa.entities.User;
+import com.example.tienda.ropa.tienda_ropa.repositories.IUserRepository;
+import jakarta.mail.MessagingException;
+import jakarta.validation.constraints.Email;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -21,16 +27,35 @@ public class ClothesStockServices {
     private IClothesStockRepository clothesRepository;
 
     @Autowired
+    private IUserRepository userRepository;
+
+    @Autowired
+    private EmailService emailService;
+
+    @Autowired
     private IImageRespository imageRespository;
     
     @Transactional
-    public ResponseEntity<?> save(ClotheStock clothe){
-       ClotheStock clotheStock = clothesRepository.save(clothe);
+    public ResponseEntity<?> save(ClothePubli publi){
+       ClotheStock clothe = publi.getClothe();
+        ClotheStock clotheStock = clothesRepository.save(clothe);
        
         clothe.getImages().forEach(image-> {
             image.setClotheStock(clothe);
             imageRespository.save(image);});
-
+        if(publi.getMessage() != "" && publi.getSubject() != ""){
+            Set<User> users = userRepository.findAll();
+            users.forEach(user->{
+                if(user.isVip() && user.getEnabled()){
+                    EmailDTO email = new EmailDTO(user.getEmail(),publi.getSubject(),publi.getMessage());
+                    try {
+                        emailService.sendEmail(email);
+                    } catch (MessagingException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            });
+        }
         return ResponseEntityGenerator.genetateResponseEntity("Prenda creada con éxito",201,clotheStock);
     }
 

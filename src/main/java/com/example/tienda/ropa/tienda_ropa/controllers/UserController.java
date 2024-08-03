@@ -78,8 +78,13 @@ public class UserController implements IValidation {
     }
 
     @DeleteMapping("/wish/delete/{idUser}/{idWish}")
-    public ResponseEntity<?> deleteWish(@PathVariable String idUSer, @PathVariable String idWish){
-        return this.userService.deleteWish(idUSer, idWish);
+    public ResponseEntity<?> deleteWish(@PathVariable String idUser, @PathVariable String idWish){
+        return this.userService.deleteWish(idUser, idWish);
+    }
+
+    @GetMapping("/detectWish/{idUser}/{idWish}")
+    public ResponseEntity<?> detectWish(@PathVariable String idUser, @PathVariable String idWish){
+        return this.userService.detectWish(idUser, idWish);
     }
 
     @Override

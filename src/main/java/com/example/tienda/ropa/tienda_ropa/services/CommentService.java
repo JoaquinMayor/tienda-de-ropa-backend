@@ -1,5 +1,6 @@
 package com.example.tienda.ropa.tienda_ropa.services;
 
+import com.example.tienda.ropa.tienda_ropa.classes.ResponseCommentView;
 import com.example.tienda.ropa.tienda_ropa.classes.ResponseEntityGenerator;
 import com.example.tienda.ropa.tienda_ropa.entities.ClotheStock;
 import com.example.tienda.ropa.tienda_ropa.entities.Comment;
@@ -7,12 +8,16 @@ import com.example.tienda.ropa.tienda_ropa.entities.User;
 import com.example.tienda.ropa.tienda_ropa.repositories.IClothesStockRepository;
 import com.example.tienda.ropa.tienda_ropa.repositories.ICommentRepository;
 import com.example.tienda.ropa.tienda_ropa.repositories.IUserRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class CommentService {
@@ -49,6 +54,30 @@ public class CommentService {
             }
         }else{
             return ResponseEntityGenerator.genetateResponseEntity("Usuario no encontrado",404,null);
+        }
+
+    }
+
+    @Transactional(readOnly = true)
+    public ResponseEntity<?> findCommentsByClothe(String idClothe){
+        Set<Comment> comments = commentRepository.findByClotheId(idClothe);
+        List<String> userNames = new ArrayList<>();
+        for (Comment comment : comments) {
+            Optional<User> userOptional = userRepository.findById(comment.getUser().getId());
+            if(userOptional.isPresent()){
+                User user = userOptional.orElseThrow();
+                String fullName = user.getName() + " "+ user.getLastname();
+                userNames.add(fullName);
+            }
+        }
+        ResponseCommentView commentView = new ResponseCommentView();
+        commentView.setComments(comments);
+        commentView.setListUsersNames(userNames);
+
+        if(!comments.isEmpty()){
+            return ResponseEntityGenerator.genetateResponseEntity("Commentarios encontrados con éxito", 200, commentView);
+        }else{
+            return ResponseEntityGenerator.genetateResponseEntity("Comentarios no encontrados", 404, null);
         }
 
     }

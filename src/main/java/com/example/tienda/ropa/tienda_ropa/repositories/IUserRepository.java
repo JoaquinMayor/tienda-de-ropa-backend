@@ -20,4 +20,5 @@ public interface IUserRepository extends CrudRepository<User, String>{
     Optional<User> findByEmail(String email);
 
     Set<User> findByLastname(String lastname);
+
 }

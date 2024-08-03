@@ -3,6 +3,7 @@ package com.example.tienda.ropa.tienda_ropa.controllers;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.example.tienda.ropa.tienda_ropa.classes.ClothePubli;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.tienda.ropa.tienda_ropa.Interface.IValidation;
-import com.example.tienda.ropa.tienda_ropa.entities.ClotheStock;
 import com.example.tienda.ropa.tienda_ropa.services.ClothesStockServices;
 
 import jakarta.validation.Valid;
@@ -36,7 +36,7 @@ public class ClothesStockController implements IValidation{
     }
 
     @PostMapping
-    public ResponseEntity<?> createUpdate(@Valid @RequestBody ClotheStock clothe, BindingResult result){
+    public ResponseEntity<?> createUpdate(@Valid @RequestBody ClothePubli clothe, BindingResult result){
         if(result.hasFieldErrors()){
             return validation(result);
         }

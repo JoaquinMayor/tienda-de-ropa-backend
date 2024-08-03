@@ -44,6 +44,9 @@ public class User {
     private String image;
 
     @NotNull
+    private Boolean enabled;
+
+    @NotNull
     private boolean vip;
 
     @ManyToMany
@@ -78,6 +81,7 @@ public class User {
         this.roles = new HashSet<>();
         this.wisheList = new HashSet<>();
         this.comments = new HashSet<>();
+        this.enabled = true;
     }
     
     public User(String id, String name, String lastname, String email, String tel, String password,
@@ -93,6 +97,7 @@ public class User {
         this.taxs = new HashSet<>();
         this.roles = new HashSet<>();
         this.wisheList = new HashSet<>();
+        this.enabled = true;
     }
 
     
@@ -200,6 +205,14 @@ public class User {
         this.wisheList.add(wish);
     }
 
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
     public Set<Comment> getComments() {
         return comments;
     }
@@ -225,4 +238,22 @@ public class User {
         return Objects.hash(id, email);
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "comments=" + comments +
+                ", id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", email='" + email + '\'' +
+                ", tel='" + tel + '\'' +
+                ", password='" + password + '\'' +
+                ", image='" + image + '\'' +
+                ", enabled=" + enabled +
+                ", vip=" + vip +
+                ", wisheList=" + wisheList +
+                ", taxs=" + taxs +
+                ", roles=" + roles +
+                '}';
+    }
 }

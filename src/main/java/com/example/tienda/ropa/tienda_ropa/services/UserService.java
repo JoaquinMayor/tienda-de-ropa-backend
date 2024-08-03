@@ -8,7 +8,8 @@ import com.example.tienda.ropa.tienda_ropa.entities.Wish;
 import com.example.tienda.ropa.tienda_ropa.repositories.IWishReposotory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-//import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.example.tienda.ropa.tienda_ropa.entities.Role;
@@ -30,16 +31,19 @@ public class UserService {
     private IWishReposotory wishRepository;
 
 
-   /*  @Autowired
-    private PasswordEncoder passwordEncoder;*/
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Transactional
     public ResponseEntity<?> save(UserDto userDto, String password){
         Optional<Role> optionalRole = roleRepository.findByName("ROLE_USER");
-       // String passwordEncoded = passwordEncoder.encode(password);
-        User user = new User(userDto.getId(),userDto.getName(),userDto.getLastname(),userDto.getEmail(),userDto.getTel(),password, userDto.getImage(), userDto.getVip());
+       String passwordEncoded = passwordEncoder.encode(password);
+        User user = new User(userDto.getId(),userDto.getName(),userDto.getLastname(),userDto.getEmail(),userDto.getTel(),passwordEncoded, userDto.getImage(), userDto.getVip());
         user.setRole(optionalRole.orElseThrow());
-        return ResponseEntityGenerator.genetateResponseEntity("Usuario creado con éxito",201,user);
+
+        this.userRepository.save(user);
+
+       return ResponseEntityGenerator.genetateResponseEntity("Usuario creado con éxito",201,user);
     }
 
     @Transactional(readOnly = true)
@@ -104,8 +108,8 @@ public class UserService {
 
         if(userOptional.isPresent()){
             User user = userOptional.get();
-            //String passwordEncoded = passwordEncoder.encode(newPassword);
-            user.setPassword(newPassword);
+            String passwordEncoded = passwordEncoder.encode(newPassword);
+            user.setPassword(passwordEncoded);
             return ResponseEntityGenerator.genetateResponseEntity("Contraseña actualizada con éxito",200,user);
         }else{
             return ResponseEntityGenerator.genetateResponseEntity("Usuario no encontrado",404,null);
@@ -146,4 +150,17 @@ public class UserService {
             return ResponseEntityGenerator.genetateResponseEntity("Deseo no encontrado",404,null);
         }
     }
+
+
+    @Transactional
+    public ResponseEntity<?> detectWish(String idUser, String idWish){
+        boolean existWish = this.wishRepository.existsByWishIdAndUserId(idWish, idUser);
+
+        if(existWish){
+            return ResponseEntityGenerator.genetateResponseEntity("Deseo Existente", 200, existWish);
+        }else{
+            return ResponseEntityGenerator.genetateResponseEntity("Esta prenda no tiene deseo", 200, existWish);
+        }
+    }
+
 }
