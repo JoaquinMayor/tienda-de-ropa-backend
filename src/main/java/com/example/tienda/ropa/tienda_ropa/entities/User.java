@@ -26,7 +26,7 @@ public class User {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Long id;
 
     @NotEmpty
     private String name;
@@ -87,9 +87,8 @@ public class User {
         this.enabled = true;
     }
     
-    public User(String id, String name, String lastname, String email, String tel, String password,
+    public User(String name, String lastname, String email, String tel, String password,
             String image, boolean vip) {
-        this.id = id;
         this.name = name;
         this.lastname = lastname;
         this.email = email;
@@ -105,7 +104,7 @@ public class User {
 
     
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 

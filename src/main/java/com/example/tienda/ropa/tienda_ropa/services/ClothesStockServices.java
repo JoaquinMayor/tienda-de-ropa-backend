@@ -9,7 +9,6 @@ import com.example.tienda.ropa.tienda_ropa.classes.ResponseEntityGenerator;
 import com.example.tienda.ropa.tienda_ropa.entities.User;
 import com.example.tienda.ropa.tienda_ropa.repositories.IUserRepository;
 import jakarta.mail.MessagingException;
-import jakarta.validation.constraints.Email;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;

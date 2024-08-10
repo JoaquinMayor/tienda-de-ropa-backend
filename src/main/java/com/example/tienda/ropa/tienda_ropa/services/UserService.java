@@ -38,7 +38,7 @@ public class UserService {
     public ResponseEntity<?> save(UserDto userDto, String password){
         Optional<Role> optionalRole = roleRepository.findByName("ROLE_USER");
        String passwordEncoded = passwordEncoder.encode(password);
-        User user = new User(userDto.getId(),userDto.getName(),userDto.getLastname(),userDto.getEmail(),userDto.getTel(),passwordEncoded, userDto.getImage(), userDto.getVip());
+        User user = new User(userDto.getName(),userDto.getLastname(),userDto.getEmail(),userDto.getTel(),passwordEncoded, userDto.getImage(), userDto.getVip());
         user.setRole(optionalRole.orElseThrow());
 
         this.userRepository.save(user);
@@ -53,7 +53,7 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public ResponseEntity<?> findById(String id){
+    public ResponseEntity<?> findById(Long id){
         Optional<User> userOptional = userRepository.findById(id);
         if(userOptional.isPresent()){
             return ResponseEntityGenerator.genetateResponseEntity("Usuario encontrado",200,userOptional.orElseThrow());
@@ -103,7 +103,7 @@ public class UserService {
     }
 
     @Transactional
-    public ResponseEntity<?> updatePassword(String id, String newPassword){
+    public ResponseEntity<?> updatePassword(Long id, String newPassword){
         Optional<User> userOptional  = userRepository.findById(id);
 
         if(userOptional.isPresent()){
@@ -118,7 +118,7 @@ public class UserService {
     }
 
     @Transactional
-    public ResponseEntity<?> addWish(String idUser, Wish wish){
+    public ResponseEntity<?> addWish(Long idUser, Wish wish){
         Optional<User> userOptional = this.userRepository.findById(idUser);
         if(userOptional.isPresent()){
             User user = userOptional.get();
@@ -133,7 +133,7 @@ public class UserService {
     }
 
     @Transactional
-    public ResponseEntity<?> deleteWish(String idUser, String idWish){
+    public ResponseEntity<?> deleteWish(Long idUser, String idWish){
 
         Optional<User> userOptional = this.userRepository.findById(idUser);
         Optional<Wish> wishOptional = this.wishRepository.findById(idWish);

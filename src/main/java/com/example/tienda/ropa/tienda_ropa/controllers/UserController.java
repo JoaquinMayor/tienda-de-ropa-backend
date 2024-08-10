@@ -49,12 +49,12 @@ public class UserController implements IValidation {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @PutMapping("/updatePassword/{id}/{password}")
-    public ResponseEntity<?> updatePassword(@PathVariable String id, @PathVariable String password) {
+    public ResponseEntity<?> updatePassword(@PathVariable Long id, @PathVariable String password) {
         return userService.updatePassword(id, password);
     }
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<?> findById(@PathVariable String id) {
+    public ResponseEntity<?> findById(@PathVariable Long id) {
         return this.userService.findById(id);
     }
 
@@ -69,7 +69,7 @@ public class UserController implements IValidation {
     }
     //El id del wish tiene que ser el mismo que el de la prenda al cual pertenece
     @PutMapping("/wish/{id}")
-    public ResponseEntity<?> addWish(@PathVariable String id, @Valid @RequestBody Wish wish, BindingResult result) {
+    public ResponseEntity<?> addWish(@PathVariable Long id, @Valid @RequestBody Wish wish, BindingResult result) {
         if (result.hasFieldErrors()) {
             return validation(result);
         }
@@ -78,7 +78,7 @@ public class UserController implements IValidation {
     }
 
     @DeleteMapping("/wish/delete/{idUser}/{idWish}")
-    public ResponseEntity<?> deleteWish(@PathVariable String idUser, @PathVariable String idWish){
+    public ResponseEntity<?> deleteWish(@PathVariable Long idUser, @PathVariable String idWish){
         return this.userService.deleteWish(idUser, idWish);
     }
 

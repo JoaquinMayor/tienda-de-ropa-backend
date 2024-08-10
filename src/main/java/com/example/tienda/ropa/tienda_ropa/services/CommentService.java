@@ -32,7 +32,7 @@ public class CommentService {
     IClothesStockRepository clotheRepository;
 
     @Transactional
-    public ResponseEntity<?> addComment(String idUser, String idClothes, String text){
+    public ResponseEntity<?> addComment(Long idUser, String idClothes, String text){
         Optional<User> optionalUser = userRepository.findById(idUser);
         Optional<ClotheStock> optionalClothe = clotheRepository.findById(idClothes);
 
