@@ -2,14 +2,14 @@ package com.example.tienda.ropa.tienda_ropa.classes;
 
 public class CommentInfo {
 
-    private Long idUser;
+    private String idUser;
     private String idProduct;
     private String comment;
 
     public CommentInfo() {
     }
 
-    public CommentInfo(String comment, String idProduct, Long idUser) {
+    public CommentInfo(String comment, String idProduct, String idUser) {
         this.comment = comment;
         this.idProduct = idProduct;
         this.idUser = idUser;
@@ -19,7 +19,7 @@ public class CommentInfo {
         return comment;
     }
 
-    public Long getIdUser() {
+    public String getIdUser() {
         return idUser;
     }
 

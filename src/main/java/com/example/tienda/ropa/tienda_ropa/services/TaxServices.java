@@ -25,7 +25,7 @@ public class TaxServices {
     private IClothesSoldRepository clothesRepository;
     
     @Transactional
-    public ResponseEntity<?> save(Long idUser, Tax tax){
+    public ResponseEntity<?> save(String idUser, Tax tax){
         Optional<User> optionalUser = userRepository.findById(idUser);
         if(optionalUser.isPresent()){
             User user = optionalUser.orElseThrow();

@@ -12,7 +12,6 @@ import static com.example.tienda.ropa.tienda_ropa.security.TokenJwtConfig.PERMIT
 
 import java.io.IOException;
 
-
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -44,15 +43,17 @@ public class JwtValidationFilter extends BasicAuthenticationFilter{
                 
             String header = request.getHeader(HEADER_AUTORIZATION); //Primero recuperamos el header, del token del cliente o postman
             String path = request.getRequestURI();
+             
+
             AntPathMatcher pathMatcher = new AntPathMatcher();
-
             boolean isPermitted = TokenJwtConfig.PERMIT_ALL_PATHS.stream()
-                                  .anyMatch(permittedPath-> pathMatcher.match(permittedPath, path));
+                          .anyMatch(permittedPath -> pathMatcher.match(permittedPath, path));
 
-            if(isPermitted){
-                chain.doFilter(request, response);
-                return ;
-            }
+        if (isPermitted) {
+             System.out.println("entre aca !!");
+            chain.doFilter(request, response);
+            return;
+         }
 
             String token = header.replace(PREFIX_TOKEN, ""); //Le quitamos el prefix tooken para dejarlo limpio
 

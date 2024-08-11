@@ -24,7 +24,7 @@ import jakarta.validation.Valid;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
-@RequestMapping("api/clothes")
+@RequestMapping("/api/clothes")
 public class ClothesStockController implements IValidation{
 
     @Autowired

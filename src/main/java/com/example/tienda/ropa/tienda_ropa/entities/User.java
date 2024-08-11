@@ -3,17 +3,17 @@ package com.example.tienda.ropa.tienda_ropa.entities;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotEmpty;
@@ -25,8 +25,7 @@ import jakarta.validation.constraints.NotNull;
 public class User {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
     @NotEmpty
     private String name;
@@ -104,7 +103,7 @@ public class User {
 
     
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
@@ -257,5 +256,12 @@ public class User {
                 ", taxs=" + taxs +
                 ", roles=" + roles +
                 '}';
+    }
+
+    @PrePersist
+    public void generateId() {
+        if (this.id == null) {
+            this.id = UUID.randomUUID().toString();
+        }
     }
 }

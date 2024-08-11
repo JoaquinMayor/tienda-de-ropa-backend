@@ -42,7 +42,7 @@ public class SpringSecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception{//Para dar o quitar permisos en el tema de seguridad
         return http.authorizeHttpRequests((authz) -> authz
         .requestMatchers(HttpMethod.GET,"/api/users").hasRole("ADMIN")
-        .requestMatchers(HttpMethod.POST,"/api/users/{password}").permitAll()
+        .requestMatchers(HttpMethod.POST, "/api/users/register/{password}").permitAll()
         .requestMatchers(HttpMethod.PUT,"/api/users/update").permitAll()
         .requestMatchers(HttpMethod.PUT,"/api/users/updatePassword/{id}/{password}").hasAnyRole("USER","ADMIN")
         .requestMatchers(HttpMethod.GET,"/api/users/id/{id}").hasAnyRole("USER", "ADMIN")
@@ -75,7 +75,7 @@ public class SpringSecurityConfig {
     CorsConfigurationSource corsConfigurationSource(){//Configuración para compartir el backend con el front
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOriginPatterns(Arrays.asList("*")); //Acá van las rutas
-        config.setAllowedMethods(Arrays.asList("GET","POST","DELETE","PUT")); //Aclaramos en que tipo de métodos los queremos agregar
+        config.setAllowedMethods(Arrays.asList("GET","POST","DELETE","PUT", "OPTIONS")); //Aclaramos en que tipo de métodos los queremos agregar
         config.setAllowedHeaders(Arrays.asList("Authorization","Content-Type"));
         config.setAllowCredentials(true);
 

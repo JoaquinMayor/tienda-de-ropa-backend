@@ -14,11 +14,11 @@ public class TokenJwtConfig {
     public static final String HEADER_AUTORIZATION = "Authorization";
 
     public static final List<String> PERMIT_ALL_PATHS = Arrays.asList(
-        "/api/users/{password}",
-        "/api/users/update",
-        "/api/clothes",
-        "/api/clothes/code/{code}",
-        "/api/clothes/find",
-            "/login"
-    );
+    "/api/users/register/**",
+    "/api/users/update",
+    "/api/clothes",
+    "/api/clothes/code/**",
+    "/api/clothes/find",
+    "/login"
+);
 }

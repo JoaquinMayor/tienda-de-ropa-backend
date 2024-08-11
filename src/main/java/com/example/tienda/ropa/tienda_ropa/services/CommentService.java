@@ -1,7 +1,7 @@
 package com.example.tienda.ropa.tienda_ropa.services;
 
-import com.example.tienda.ropa.tienda_ropa.classes.ResponseCommentView;
 import com.example.tienda.ropa.tienda_ropa.classes.ResponseEntityGenerator;
+import com.example.tienda.ropa.tienda_ropa.classes.UserCommentDTO;
 import com.example.tienda.ropa.tienda_ropa.entities.ClotheStock;
 import com.example.tienda.ropa.tienda_ropa.entities.Comment;
 import com.example.tienda.ropa.tienda_ropa.entities.User;
@@ -32,7 +32,7 @@ public class CommentService {
     IClothesStockRepository clotheRepository;
 
     @Transactional
-    public ResponseEntity<?> addComment(Long idUser, String idClothes, String text){
+    public ResponseEntity<?> addComment(String idUser, String idClothes, String text){
         Optional<User> optionalUser = userRepository.findById(idUser);
         Optional<ClotheStock> optionalClothe = clotheRepository.findById(idClothes);
 
@@ -61,21 +61,22 @@ public class CommentService {
     @Transactional(readOnly = true)
     public ResponseEntity<?> findCommentsByClothe(String idClothe){
         Set<Comment> comments = commentRepository.findByClotheId(idClothe);
-        List<String> userNames = new ArrayList<>();
+        List<UserCommentDTO> userComments = new ArrayList<>();
         for (Comment comment : comments) {
-            Optional<User> userOptional = userRepository.findById(comment.getUser().getId());
-            if(userOptional.isPresent()){
-                User user = userOptional.orElseThrow();
-                String fullName = user.getName() + " "+ user.getLastname();
-                userNames.add(fullName);
+            if(comment.getAvailable()){
+                Optional<User> userOptional = userRepository.findById(comment.getUser().getId());
+                if(userOptional.isPresent()){
+                    User user = userOptional.orElseThrow();
+                    String fullName = user.getName() + " "+ user.getLastname();
+                    UserCommentDTO userComment = new UserCommentDTO(fullName, user.getImage(), comment.getText());
+                    userComments.add(userComment);
+                }
             }
+            
         }
-        ResponseCommentView commentView = new ResponseCommentView();
-        commentView.setComments(comments);
-        commentView.setListUsersNames(userNames);
 
         if(!comments.isEmpty()){
-            return ResponseEntityGenerator.genetateResponseEntity("Commentarios encontrados con éxito", 200, commentView);
+            return ResponseEntityGenerator.genetateResponseEntity("Commentarios encontrados con éxito", 200, userComments);
         }else{
             return ResponseEntityGenerator.genetateResponseEntity("Comentarios no encontrados", 404, null);
         }

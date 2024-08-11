@@ -2,7 +2,7 @@ package com.example.tienda.ropa.tienda_ropa.classes;
 
 public class UserDto {
 
-    private Long id;
+    private String id;
 
     private String name;
 
@@ -21,7 +21,7 @@ public class UserDto {
     }
 
 
-    public UserDto(Long id, String name, String lastname, String tel, String image, String email, Boolean vip) {
+    public UserDto(String id, String name, String lastname, String tel, String image, String email, Boolean vip) {
         this.id = id;
         this.name = name;
         this.lastname = lastname;
@@ -32,7 +32,7 @@ public class UserDto {
     }
 
     
-    public Long getId() {
+    public String getId() {
         return id;
     }
 

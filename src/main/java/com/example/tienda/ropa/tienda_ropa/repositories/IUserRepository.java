@@ -9,13 +9,13 @@ import com.example.tienda.ropa.tienda_ropa.entities.User;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface IUserRepository extends CrudRepository<User, Long>{
+public interface IUserRepository extends CrudRepository<User, String>{
 
     @SuppressWarnings("null")
     Set<User> findAll();
 
     @SuppressWarnings("null")
-    Optional<User> findById(Long id);
+    Optional<User> findById(String id);
     
     Optional<User> findByEmail(String email);
 
