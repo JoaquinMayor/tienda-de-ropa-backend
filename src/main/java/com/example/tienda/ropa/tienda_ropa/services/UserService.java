@@ -38,7 +38,7 @@ public class UserService {
     public ResponseEntity<?> save(UserDto userDto, String password){
         Optional<Role> optionalRole = roleRepository.findByName("ROLE_USER");
        
-            String passwordEncoded = passwordEncoder.encode("password");
+            String passwordEncoded = passwordEncoder.encode(password);
             User user = new User(userDto.getName(),userDto.getLastname(),userDto.getEmail(),userDto.getTel(),passwordEncoded, userDto.getImage(), userDto.getVip());
             user.setRole(optionalRole.orElseThrow());
     
