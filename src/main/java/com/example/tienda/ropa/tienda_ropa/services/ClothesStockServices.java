@@ -47,6 +47,7 @@ public class ClothesStockServices {
             users.forEach(user->{
                 if(user.isVip() && user.getEnabled()){
                     EmailDTO email = new EmailDTO(user.getEmail(),publi.getSubject(),publi.getMessage());
+                    System.out.println("Email " + email.getAddressee());
                     try {
                         emailService.sendEmail(email);
                     } catch (MessagingException e) {
