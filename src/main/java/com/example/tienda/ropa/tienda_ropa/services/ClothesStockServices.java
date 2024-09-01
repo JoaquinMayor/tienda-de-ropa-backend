@@ -42,7 +42,7 @@ public class ClothesStockServices {
         clothe.getImages().forEach(image-> {
             image.setClotheStock(clothe);
             imageRespository.save(image);});
-        if(publi.getMessage() != "" && publi.getSubject() != ""){
+        if(!publi.getMessage().isEmpty() && !publi.getSubject().isEmpty()){
             Set<User> users = userRepository.findAll();
             users.forEach(user->{
                 if(user.isVip() && user.getEnabled()){
