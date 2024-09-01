@@ -75,4 +75,15 @@ public class TaxServices {
         }
     }
 
+    @Transactional(readOnly = true)
+    public ResponseEntity<?> findByUserID(String userID){
+        
+        Set<Tax> taxs = taxRepository.findByUserId(userID);
+        if(!taxs.isEmpty()){
+            return ResponseEntityGenerator.genetateResponseEntity("Facturas encontradas con éxito", 200, taxs);
+        }else{
+            return ResponseEntityGenerator.genetateResponseEntity("Facturas no encontradas",404,null);
+        }
+    }
+
 }

@@ -18,4 +18,6 @@ public interface ITaxRepository extends CrudRepository<Tax,String>{
     Optional<Tax> findByCode(String code);
 
     Set<Tax> findByDate(Date date);
+
+    Set<Tax> findByUserId(String userId);
 }

@@ -21,7 +21,7 @@ import com.example.tienda.ropa.tienda_ropa.Interface.IValidation;
 import com.example.tienda.ropa.tienda_ropa.entities.Tax;
 import com.example.tienda.ropa.tienda_ropa.services.TaxServices;
 
-
+import io.micrometer.core.ipc.http.HttpSender.Response;
 import jakarta.validation.Valid;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -35,6 +35,11 @@ public class TaxController implements IValidation{
     @GetMapping
     public ResponseEntity<?> findAll(){
         return this.taxServices.findAll();
+    }
+
+    @GetMapping("find/{idUser}")
+    public ResponseEntity<?> findTaxByUser(@PathVariable String idUser){
+        return taxServices.findByUserID(idUser);
     }
 
     @PostMapping(path = "/{idUser}", consumes = "application/json;charset=UTF-8")
