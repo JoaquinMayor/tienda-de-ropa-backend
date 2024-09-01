@@ -35,7 +35,7 @@ public class ClothesStockController implements IValidation{
         return this.clothesService.findAll();
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<?> createUpdate(@Valid @RequestBody ClothePubli clothe, BindingResult result){
         if(result.hasFieldErrors()){
             return validation(result);

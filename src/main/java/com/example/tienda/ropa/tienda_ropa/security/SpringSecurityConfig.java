@@ -59,7 +59,7 @@ public class SpringSecurityConfig {
         .requestMatchers(HttpMethod.GET,"/api/taxs/code/{code}").hasAnyRole("USER","ADMIN")
         .requestMatchers(HttpMethod.GET,"/api/taxs/date").hasAnyRole("USER","ADMIN")
         .requestMatchers(HttpMethod.GET,"/api/clothes").permitAll()
-        .requestMatchers(HttpMethod.POST,"/api/clothes").hasRole("ADMIN")
+        .requestMatchers(HttpMethod.POST,"/api/clothes/create").hasRole("ADMIN")
         .requestMatchers(HttpMethod.GET,"/api/clothes/code/{code}").permitAll()
         .requestMatchers(HttpMethod.GET,"/api/clothes/find").permitAll()
         .anyRequest().authenticated())//hacemos que a esa direccion sea pública, pero que al resto se le necesite una autentificación
