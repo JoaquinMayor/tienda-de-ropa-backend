@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.tienda.ropa.tienda_ropa.classes.ItemMercadoPago;
-import com.example.tienda.ropa.tienda_ropa.security.MercadoPagoService;
+import com.example.tienda.ropa.tienda_ropa.services.MercadoPagoService;
 import com.mercadopago.resources.preference.Preference;
 
 @CrossOrigin(origins = "http://localhost:4200")
