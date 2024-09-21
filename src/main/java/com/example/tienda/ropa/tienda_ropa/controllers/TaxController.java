@@ -21,7 +21,6 @@ import com.example.tienda.ropa.tienda_ropa.Interface.IValidation;
 import com.example.tienda.ropa.tienda_ropa.entities.Tax;
 import com.example.tienda.ropa.tienda_ropa.services.TaxServices;
 
-import io.micrometer.core.ipc.http.HttpSender.Response;
 import jakarta.validation.Valid;
 
 @CrossOrigin(origins = "http://localhost:4200")
