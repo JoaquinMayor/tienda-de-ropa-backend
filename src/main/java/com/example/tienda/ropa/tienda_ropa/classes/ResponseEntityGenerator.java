@@ -1,5 +1,6 @@
 package com.example.tienda.ropa.tienda_ropa.classes;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.HashMap;
@@ -14,7 +15,6 @@ public class ResponseEntityGenerator {
         if(body!=null){
             response.put("body", body);
         }
-
 
         return ResponseEntity.status(status).body(response);
     }
