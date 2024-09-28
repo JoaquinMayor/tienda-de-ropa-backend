@@ -1,6 +1,5 @@
 package com.example.tienda.ropa.tienda_ropa.classes;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.HashMap;
