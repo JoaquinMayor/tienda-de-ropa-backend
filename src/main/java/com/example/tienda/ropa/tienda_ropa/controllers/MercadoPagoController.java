@@ -14,7 +14,7 @@ import com.example.tienda.ropa.tienda_ropa.classes.ItemMercadoPago;
 import com.example.tienda.ropa.tienda_ropa.services.MercadoPagoService;
 import com.mercadopago.resources.preference.Preference;
 
-/*@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/mercado")
 public class MercadoPagoController {
@@ -28,4 +28,4 @@ public class MercadoPagoController {
         return this.mercadoPagoService.mercadoToken(items);
     }
     
-}*/
+}

@@ -19,6 +19,7 @@ public class TokenJwtConfig {
     "/api/clothes",
     "/api/clothes/code/**",
     "/api/clothes/find",
-    "/login"
+    "/login",
+    "/api/mercado"
 );
 }

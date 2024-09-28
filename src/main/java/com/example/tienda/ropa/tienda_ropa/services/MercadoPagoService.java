@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.stereotype.Service;
+
 import com.example.tienda.ropa.tienda_ropa.classes.ItemMercadoPago;
 import com.mercadopago.MercadoPagoConfig;
 import com.mercadopago.client.preference.PreferenceClient;
@@ -13,6 +15,7 @@ import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
 import com.mercadopago.resources.preference.Preference;
 
+@Service
 public class MercadoPagoService {
     
     public Preference mercadoToken(Set<ItemMercadoPago> items){
