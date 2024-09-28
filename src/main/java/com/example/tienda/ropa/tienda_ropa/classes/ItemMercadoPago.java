@@ -8,7 +8,6 @@ public class ItemMercadoPago {
     private Double unitPrice;
     private String currencyId;
     private String description;
-    private String picture;
 
     public ItemMercadoPago() {
     }
@@ -20,7 +19,6 @@ public class ItemMercadoPago {
         this.unitPrice = unitPrice;
         this.currencyId = currencyId;
         this.description = description;
-        this.picture = picture;
         this.id = id;
     }
 
@@ -73,9 +71,6 @@ public class ItemMercadoPago {
         this.description = description;
     }
 
-    public String getPicture(){
-        return this.picture;
-    }
 
     @Override
     public int hashCode() {
