@@ -2,24 +2,31 @@ package com.example.tienda.ropa.tienda_ropa.classes;
 
 public class ItemMercadoPago {
 
+    private String id;
     private String title;
     private Integer quanty;
     private Double unitPrice;
     private String currencyId;
     private String description;
+    private String picture;
 
     public ItemMercadoPago() {
     }
 
 
-    public ItemMercadoPago(String title, Integer quanty, Double unitPrice, String currencyId, String description) {
+    public ItemMercadoPago(String id, String title, Integer quanty, Double unitPrice, String currencyId, String description, String picture) {
         this.title = title;
         this.quanty = quanty;
         this.unitPrice = unitPrice;
         this.currencyId = currencyId;
         this.description = description;
+        this.picture = picture;
+        this.id = id;
     }
 
+    public String getID(){
+        return this.id;
+    }
 
     public String getTitle() {
         return title;
@@ -64,6 +71,10 @@ public class ItemMercadoPago {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getPicture(){
+        return this.picture;
     }
 
     @Override
