@@ -51,13 +51,13 @@ public class ClothesStockController implements IValidation{
 
     @GetMapping("/code/{code}")
     public ResponseEntity<?> findByCode(@PathVariable String code, @RequestBody PageData page){
-        final Pageable pageable = PageRequest.of(page.getPage(), page.getCant(), Sort.by(Sort.Direction.ASC, "name"));
+        final Pageable pageable = PageRequest.of(page.getPage(), page.getCant(), Sort.by(Sort.Direction.ASC, "code"));
         return this.clothesService.findByCode(code, pageable);
     }
 
     @GetMapping("/find")
     public ResponseEntity<?> findClothesByParameters(@RequestParam(required = false) String name, @RequestParam(required = false) String size, @RequestParam(required = false) Float priceMin, @RequestParam(required = false) Float priceMax, @RequestParam(required = false) String genericType, @RequestParam(required = false) String specificType, @RequestBody PageData page){
-        final Pageable pageable = PageRequest.of(page.getPage(), page.getCant(), Sort.by(Sort.Direction.ASC, "name"));
+        final Pageable pageable = PageRequest.of(page.getPage(), page.getCant(), Sort.by(Sort.Direction.ASC, "publication"));
         return this.clothesService.findByParams(name, size, priceMin, priceMax, genericType, specificType, pageable);
     }
 
