@@ -4,6 +4,8 @@ import java.util.*;
 
 import com.example.tienda.ropa.tienda_ropa.classes.ResponseEntityGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,9 +48,9 @@ public class TaxServices {
     }
 
     @Transactional
-    public ResponseEntity<?> findAll(){
+    public ResponseEntity<?> findAll(Pageable pageable){
 
-        Set<Tax> taxs = taxRepository.findAll();
+        Page<Tax> taxs = taxRepository.findAll(pageable);
 
         return ResponseEntityGenerator.genetateResponseEntity("Facturas encontradas con éxito",200,taxs);
     }
@@ -65,8 +67,8 @@ public class TaxServices {
     }
 
     @Transactional(readOnly = true)
-    public ResponseEntity<?> findByDate(Date date){
-        Set<Tax> taxs = taxRepository.findByDate(date);
+    public ResponseEntity<?> findByDate(Date date, Pageable pageable){
+        Page<Tax> taxs = taxRepository.findByDate(date, pageable);
         if(!taxs.isEmpty()){
 
             return ResponseEntityGenerator.genetateResponseEntity("Facturas encontradas con éxito",200,taxs);
@@ -76,9 +78,9 @@ public class TaxServices {
     }
 
     @Transactional(readOnly = true)
-    public ResponseEntity<?> findByUserID(String userID){
+    public ResponseEntity<?> findByUserID(String userID, Pageable pageable){
         
-        Set<Tax> taxs = taxRepository.findByUserId(userID);
+        Page<Tax> taxs = taxRepository.findByUserId(userID, pageable);
         if(!taxs.isEmpty()){
             return ResponseEntityGenerator.genetateResponseEntity("Facturas encontradas con éxito", 200, taxs);
         }else{

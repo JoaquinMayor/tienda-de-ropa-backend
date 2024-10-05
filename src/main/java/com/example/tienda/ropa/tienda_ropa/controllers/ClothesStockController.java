@@ -4,7 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.example.tienda.ropa.tienda_ropa.classes.ClothePubli;
+import com.example.tienda.ropa.tienda_ropa.classes.PageData;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -31,8 +36,9 @@ public class ClothesStockController implements IValidation{
     private ClothesStockServices clothesService;
 
     @GetMapping
-    public ResponseEntity<?> findAll(){
-        return this.clothesService.findAll();
+    public ResponseEntity<?> findAll(@RequestBody PageData page){
+        final Pageable pageable = PageRequest.of(page.getPage(), page.getCant(), Sort.by(Sort.Direction.DESC, "publication"));
+        return this.clothesService.findAll(pageable);
     }
 
     @PostMapping("/create")
@@ -44,13 +50,15 @@ public class ClothesStockController implements IValidation{
     }
 
     @GetMapping("/code/{code}")
-    public ResponseEntity<?> findByCode(@PathVariable String code){
-        return this.clothesService.findByCode(code);
+    public ResponseEntity<?> findByCode(@PathVariable String code, @RequestBody PageData page){
+        final Pageable pageable = PageRequest.of(page.getPage(), page.getCant(), Sort.by(Sort.Direction.ASC, "name"));
+        return this.clothesService.findByCode(code, pageable);
     }
 
     @GetMapping("/find")
-    public ResponseEntity<?> findClothesByParameters(@RequestParam(required = false) String name, @RequestParam(required = false) String size, @RequestParam(required = false) Float priceMin, @RequestParam(required = false) Float priceMax, @RequestParam(required = false) String genericType, @RequestParam(required = false) String specificType){
-        return this.clothesService.findByParams(name, size, priceMin, priceMax, genericType, specificType);
+    public ResponseEntity<?> findClothesByParameters(@RequestParam(required = false) String name, @RequestParam(required = false) String size, @RequestParam(required = false) Float priceMin, @RequestParam(required = false) Float priceMax, @RequestParam(required = false) String genericType, @RequestParam(required = false) String specificType, @RequestBody PageData page){
+        final Pageable pageable = PageRequest.of(page.getPage(), page.getCant(), Sort.by(Sort.Direction.ASC, "name"));
+        return this.clothesService.findByParams(name, size, priceMin, priceMax, genericType, specificType, pageable);
     }
 
     @Override

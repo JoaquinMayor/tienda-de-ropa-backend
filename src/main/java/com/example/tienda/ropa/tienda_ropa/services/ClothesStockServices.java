@@ -10,6 +10,8 @@ import com.example.tienda.ropa.tienda_ropa.entities.User;
 import com.example.tienda.ropa.tienda_ropa.repositories.IUserRepository;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,7 +45,7 @@ public class ClothesStockServices {
             image.setClotheStock(clothe);
             imageRespository.save(image);});
         if(!publi.getMessage().isEmpty() && !publi.getSubject().isEmpty()){
-            Set<User> users = userRepository.findAll();
+            List<User> users = userRepository.findAll();
             users.forEach(user->{
                 if(user.isVip() && user.getEnabled()){
                     EmailDTO email = new EmailDTO(user.getEmail(),publi.getSubject(),publi.getMessage());
@@ -60,8 +62,8 @@ public class ClothesStockServices {
     }
 
     @Transactional(readOnly = true)
-    public ResponseEntity<?> findAll(){
-        Set<ClotheStock> clothes = clothesRepository.findAll();
+    public ResponseEntity<?> findAll(Pageable pageable){
+        Page<ClotheStock> clothes = clothesRepository.findAll(pageable);
         if(!clothes.isEmpty()) {
             return ResponseEntityGenerator.genetateResponseEntity("Prendas encontradas con éxito",200,clothes);
         }else{
@@ -70,8 +72,8 @@ public class ClothesStockServices {
     }
 
     @Transactional(readOnly = true)
-    public ResponseEntity<?> findByCode(String code){
-        Set<ClotheStock> clothes = clothesRepository.findByCode(code);
+    public ResponseEntity<?> findByCode(String code, Pageable pageable){
+        Page<ClotheStock> clothes = clothesRepository.findByCode(code, pageable);
         if(!clothes.isEmpty()){
             return ResponseEntityGenerator.genetateResponseEntity("Prendas encontradas con éxito",200,clothes);
         }else{
@@ -80,8 +82,8 @@ public class ClothesStockServices {
     }
 
     @Transactional(readOnly = true)
-    public ResponseEntity<?> findByParams(String name, String size, Float priceMin, Float priceMax, String genericType, String specificType){
-        Set<ClotheStock> clothes = clothesRepository.findByParameters(name, size, priceMin,priceMax, genericType, specificType);
+    public ResponseEntity<?> findByParams(String name, String size, Float priceMin, Float priceMax, String genericType, String specificType, Pageable pageable){
+        Page<ClotheStock> clothes = clothesRepository.findByParameters(name, size, priceMin,priceMax, genericType, specificType, pageable);
         if(!clothes.isEmpty()) {
             return ResponseEntityGenerator.genetateResponseEntity("Prendas encontradas con éxito",200,clothes);
         }else{

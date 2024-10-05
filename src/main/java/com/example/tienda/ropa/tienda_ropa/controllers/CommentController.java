@@ -2,9 +2,11 @@ package com.example.tienda.ropa.tienda_ropa.controllers;
 
 import com.example.tienda.ropa.tienda_ropa.Interface.IValidation;
 import com.example.tienda.ropa.tienda_ropa.classes.CommentInfo;
-
+import com.example.tienda.ropa.tienda_ropa.classes.PageData;
 import com.example.tienda.ropa.tienda_ropa.services.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -35,8 +37,9 @@ public class CommentController implements IValidation {
     }
 
     @GetMapping("/find/{idClothe}")
-    public ResponseEntity<?> findComments(@PathVariable String idClothe){
-        return this.commentService.findCommentsByClothe(idClothe);
+    public ResponseEntity<?> findComments(@PathVariable String idClothe, @RequestBody PageData page){
+        final Pageable pageable = PageRequest.of(page.getPage(), page.getCant());
+        return this.commentService.findCommentsByClothe(idClothe, pageable);
     }
 
     @Override

@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.tienda.ropa.tienda_ropa.Interface.IValidation;
+import com.example.tienda.ropa.tienda_ropa.classes.PageData;
 import com.example.tienda.ropa.tienda_ropa.entities.Tax;
 import com.example.tienda.ropa.tienda_ropa.services.TaxServices;
 
@@ -32,13 +36,15 @@ public class TaxController implements IValidation{
     TaxServices taxServices;
     
     @GetMapping
-    public ResponseEntity<?> findAll(){
-        return this.taxServices.findAll();
+    public ResponseEntity<?> findAll(@RequestBody PageData page){
+        final Pageable pageable = PageRequest.of(page.getPage(), page.getCant(), Sort.by(Sort.Direction.ASC, "id"));
+        return this.taxServices.findAll(pageable);
     }
 
     @GetMapping("find/{idUser}")
-    public ResponseEntity<?> findTaxByUser(@PathVariable String idUser){
-        return taxServices.findByUserID(idUser);
+    public ResponseEntity<?> findTaxByUser(@PathVariable String idUser, @RequestBody PageData page){
+        final Pageable pageable = PageRequest.of(page.getPage(), page.getCant(), Sort.by(Sort.Direction.ASC, "id"));
+        return taxServices.findByUserID(idUser, pageable);
     }
 
     @PostMapping(path = "/{idUser}", consumes = "application/json;charset=UTF-8")
@@ -56,8 +62,9 @@ public class TaxController implements IValidation{
     }
 
     @GetMapping("/date")
-    public ResponseEntity<?> findByDate(@RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") Date date){
-        return this.taxServices.findByDate(date);
+    public ResponseEntity<?> findByDate(@RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") Date date, @RequestBody PageData page){
+        final Pageable pageable = PageRequest.of(page.getPage(), page.getCant(), Sort.by(Sort.Direction.ASC, "id"));
+        return this.taxServices.findByDate(date, pageable);
     }
     
     @Override

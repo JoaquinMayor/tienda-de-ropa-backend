@@ -1,12 +1,14 @@
 package com.example.tienda.ropa.tienda_ropa.services;
 
 import java.util.Optional;
-import java.util.Set;
 
 import com.example.tienda.ropa.tienda_ropa.classes.ResponseEntityGenerator;
 import com.example.tienda.ropa.tienda_ropa.entities.Wish;
 import com.example.tienda.ropa.tienda_ropa.repositories.IWishReposotory;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -47,8 +49,9 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public ResponseEntity<?> findAll(){
-        Set<User> users = userRepository.findAll();
+    public ResponseEntity<?> findAll(Pageable pageable){
+       
+        Page<User> users = userRepository.findAll(pageable);
         return ResponseEntityGenerator.genetateResponseEntity("Usuarios encontrados con éxito",200,users);
     }
 
@@ -73,8 +76,8 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public ResponseEntity<?> findByLastname(String lastname){
-        Set<User> users = userRepository.findByLastname(lastname);
+    public ResponseEntity<?> findByLastname(String lastname, Pageable pageable){
+        Page<User> users = userRepository.findByLastname(lastname, pageable);
         if(!users.isEmpty()){
             return ResponseEntityGenerator.genetateResponseEntity("Usuario encontrado",200,users);
         }else{

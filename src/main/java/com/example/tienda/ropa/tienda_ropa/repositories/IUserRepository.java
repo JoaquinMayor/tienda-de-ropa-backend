@@ -1,24 +1,26 @@
 package com.example.tienda.ropa.tienda_ropa.repositories;
 
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+
 
 import com.example.tienda.ropa.tienda_ropa.entities.User;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface IUserRepository extends CrudRepository<User, String>{
+public interface IUserRepository extends JpaRepository<User, String>{
 
     @SuppressWarnings("null")
-    Set<User> findAll();
-
+    List<User> findAll();
     @SuppressWarnings("null")
     Optional<User> findById(String id);
     
     Optional<User> findByEmail(String email);
 
-    Set<User> findByLastname(String lastname);
+    Page<User> findByLastname(String lastname, Pageable pageable);
 
 }

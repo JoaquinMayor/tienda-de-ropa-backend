@@ -5,11 +5,15 @@ import java.util.Map;
 
 import com.example.tienda.ropa.tienda_ropa.entities.Wish;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.tienda.ropa.tienda_ropa.Interface.IValidation;
+import com.example.tienda.ropa.tienda_ropa.classes.PageData;
 import com.example.tienda.ropa.tienda_ropa.classes.UserDto;
 import com.example.tienda.ropa.tienda_ropa.services.UserService;
 
@@ -24,8 +28,9 @@ public class UserController implements IValidation {
     private UserService userService;
 
     @GetMapping
-    public ResponseEntity<?> list() {
-        return this.userService.findAll();
+    public ResponseEntity<?> list(@RequestBody PageData page) {
+        final Pageable pageable = PageRequest.of(page.getPage(), page.getCant(), Sort.by(Sort.Direction.ASC, "name"));
+        return this.userService.findAll(pageable);
     }
 
     @PostMapping("/register/{password}")
@@ -64,8 +69,9 @@ public class UserController implements IValidation {
     }
 
     @GetMapping("/lastname/{lastname}")
-    public ResponseEntity<?> findByLastname(@PathVariable String lastname) {
-        return this.userService.findByLastname(lastname);
+    public ResponseEntity<?> findByLastname(@PathVariable String lastname, @RequestBody PageData page) {
+        final Pageable pageable = PageRequest.of(page.getPage(), page.getCant(), Sort.by(Sort.Direction.ASC, "name"));
+        return this.userService.findByLastname(lastname, pageable);
     }
     //El id del wish tiene que ser el mismo que el de la prenda al cual pertenece
     @PutMapping("/wish/{id}")

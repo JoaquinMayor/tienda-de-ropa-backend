@@ -1,23 +1,20 @@
 package com.example.tienda.ropa.tienda_ropa.repositories;
 
-import java.util.Set;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import com.example.tienda.ropa.tienda_ropa.entities.ClotheStock;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface IClothesStockRepository extends CrudRepository<ClotheStock,String>{
+public interface IClothesStockRepository extends JpaRepository<ClotheStock,String>{
     
 
-    @SuppressWarnings("null")
-    Set<ClotheStock> findAll();
-
     @Query("select cs from ClotheStock cs left join fetch cs.images where cs.code = ?1")
-    Set<ClotheStock> findByCode(String code);
+    Page<ClotheStock> findByCode(String code, Pageable pageable);
 
     @Query("SELECT cs FROM ClotheStock cs WHERE " +
     "(:name IS NULL OR :name = '' OR cs.name LIKE %:name%) AND " +
@@ -26,13 +23,14 @@ public interface IClothesStockRepository extends CrudRepository<ClotheStock,Stri
     "(:priceMax IS NULL OR :priceMax = 0 OR cs.price < :priceMax) AND " +
     "(:genericType IS NULL OR :genericType = '' OR cs.genericType = :genericType) AND " +
     "(:specificType IS NULL OR :specificType = '' OR cs.specificType = :specificType)")
-    Set<ClotheStock> findByParameters(
+    Page<ClotheStock> findByParameters(
         @Param("name") String name,
         @Param("size") String size,
         @Param("priceMin") Float priceMin,
         @Param("priceMax") Float priceMax,
         @Param("genericType") String genericType,
-        @Param("specificType") String specificType
+        @Param("specificType") String specificType,
+        Pageable pageable
 );
 
     
