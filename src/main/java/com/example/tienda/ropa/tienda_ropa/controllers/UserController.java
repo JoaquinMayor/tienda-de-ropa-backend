@@ -74,12 +74,12 @@ public class UserController implements IValidation {
         return this.userService.findByLastname(lastname, pageable);
     }
     //El id del wish tiene que ser el mismo que el de la prenda al cual pertenece
-    @PutMapping("/wish/{id}")
-    public ResponseEntity<?> addWish(@PathVariable String id, @Valid @RequestBody Wish wish, BindingResult result) {
+    @PutMapping("/wish/{idUser}")
+    public ResponseEntity<?> addWish(@PathVariable String idUser, @Valid @RequestBody Wish wish, BindingResult result) {
         if (result.hasFieldErrors()) {
             return validation(result);
         }
-        return this.userService.addWish(id, wish);
+        return this.userService.addWish(idUser, wish);
 
     }
 
