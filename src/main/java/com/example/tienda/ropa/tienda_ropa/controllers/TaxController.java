@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.tienda.ropa.tienda_ropa.Interface.IValidation;
-import com.example.tienda.ropa.tienda_ropa.classes.PageData;
 import com.example.tienda.ropa.tienda_ropa.entities.Tax;
 import com.example.tienda.ropa.tienda_ropa.services.TaxServices;
 
@@ -36,14 +35,15 @@ public class TaxController implements IValidation{
     TaxServices taxServices;
     
     @GetMapping
-    public ResponseEntity<?> findAll(@RequestBody PageData page){
-        final Pageable pageable = PageRequest.of(page.getPage(), page.getCant(), Sort.by(Sort.Direction.ASC, "id"));
+    public ResponseEntity<?> findAll(@RequestParam int page, @RequestParam int cant){
+        final Pageable pageable = PageRequest.of(page, cant, Sort.by(Sort.Direction.ASC, "id"));
         return this.taxServices.findAll(pageable);
     }
 
     @GetMapping("find/{idUser}")
-    public ResponseEntity<?> findTaxByUser(@PathVariable String idUser, @RequestBody PageData page){
-        final Pageable pageable = PageRequest.of(page.getPage(), page.getCant(), Sort.by(Sort.Direction.ASC, "id"));
+    public ResponseEntity<?> findTaxByUser(@PathVariable String idUser, @RequestParam int page,
+            @RequestParam int cant){
+        final Pageable pageable = PageRequest.of(page, cant, Sort.by(Sort.Direction.ASC, "id"));
         return taxServices.findByUserID(idUser, pageable);
     }
 
@@ -62,8 +62,9 @@ public class TaxController implements IValidation{
     }
 
     @GetMapping("/date")
-    public ResponseEntity<?> findByDate(@RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") Date date, @RequestBody PageData page){
-        final Pageable pageable = PageRequest.of(page.getPage(), page.getCant(), Sort.by(Sort.Direction.ASC, "id"));
+    public ResponseEntity<?> findByDate(@RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") Date date, 
+            @RequestParam int page, @RequestParam int cant){
+        final Pageable pageable = PageRequest.of(page, cant, Sort.by(Sort.Direction.ASC, "id"));
         return this.taxServices.findByDate(date, pageable);
     }
     
