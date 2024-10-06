@@ -20,6 +20,10 @@ public class TokenJwtConfig {
     "/api/clothes/code/**",
     "/api/clothes/find",
     "/login",
-    "/api/mercado"
+    "/api/mercado",
+    "/doc/swagger-ui/**",
+    "/error",
+    "/v3/api-docs/**",
+    "/webjars/**"
 );
 }
