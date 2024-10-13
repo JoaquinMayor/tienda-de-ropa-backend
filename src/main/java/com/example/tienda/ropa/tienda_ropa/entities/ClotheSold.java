@@ -1,12 +1,13 @@
 package com.example.tienda.ropa.tienda_ropa.entities;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.ManyToMany;
 
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
@@ -18,20 +19,19 @@ public class ClotheSold extends Clothe {
     @NotNull
     private Integer cant;
 
-    @ManyToOne
-    @JoinColumn(name = "id_tax")
+    @ManyToMany(mappedBy = "clothes")
     @JsonIgnore
-    private Tax tax;
+    private Set<Tax> taxes;
     
     public ClotheSold() {
     }
 
     public ClotheSold(String id, String code, String name, String size,
                       Double price, String description, String genericType,
-                      String specificType, Date publication, Integer cant, Tax tax) {
+                      String specificType, Date publication, Integer cant) {
         super(id, code, name, size, price, description, genericType, specificType, publication);
         this.cant = cant;
-        this.tax = tax;
+        this.taxes = new HashSet<>();
     }
 
     public Integer getCant() {
@@ -42,12 +42,16 @@ public class ClotheSold extends Clothe {
         this.cant = cant;
     }
 
-    public Tax getTax() {
-        return tax;
+    public Set<Tax> getTaxes() {
+        return taxes;
     }
 
-    public void setTax(Tax tax) {
-        this.tax = tax;
+    public void setTax(Tax tax){
+        this.taxes.add(tax);
+    }
+
+    public void setTaxes(Set<Tax> taxes) {
+        this.taxes = taxes;
     }
 
     @Override
@@ -77,7 +81,7 @@ public class ClotheSold extends Clothe {
 
     @Override
     public String toString() {
-        return super.toString() + "ClothesSold [cant=" + cant + tax+ "]";
+        return super.toString() + "ClothesSold [cant=" + cant + taxes+ "]";
     }
 
 }
