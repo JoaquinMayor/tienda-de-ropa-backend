@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.tienda.ropa.tienda_ropa.entities.ClotheSold;
 import com.example.tienda.ropa.tienda_ropa.entities.Tax;
 import com.example.tienda.ropa.tienda_ropa.entities.User;
 import com.example.tienda.ropa.tienda_ropa.repositories.IClothesSoldRepository;
@@ -30,14 +31,34 @@ public class TaxServices {
     public ResponseEntity<?> save(String idUser, Tax tax){
         Optional<User> optionalUser = userRepository.findById(idUser);
         if(optionalUser.isPresent()){
+            Tax newTax = new Tax();
             User user = optionalUser.orElseThrow();
             user.setTax(tax);
-            tax.setUser(user);
+            newTax.setUser(user);
 
-            taxRepository.save(tax);
+            newTax.setCode(tax.getCode());
+            newTax.setDate(tax.getDate());
+            newTax.setPrice(tax.getPrice());
+            newTax.setTravelCost(tax.getTravelCost());
+            newTax.setAdress(tax.getAdress());
+            newTax.setId(tax.getId());
+
             tax.getClothes().forEach(clothe -> {
-                clothe.setTax(tax);
-                clothesRepository.save(clothe);});
+                Optional<ClotheSold> optionalClote = clothesRepository.findById(clothe.getId());
+                if(optionalClote.isPresent()){
+                    ClotheSold clothesnew = optionalClote.get();
+                    clothesnew.setTax(tax);
+                    newTax.setClothe(clothesnew);
+                    clothesRepository.save(clothesnew);
+                }else{
+                    clothe.setTax(tax);
+                    newTax.setClothe(clothe);
+                    clothesRepository.save(clothe);
+                }
+
+               });
+
+            taxRepository.save(newTax);
 
             userRepository.save(user);
             return ResponseEntityGenerator.genetateResponseEntity("Factura creada con éxito",201,tax);

@@ -81,6 +81,10 @@ public class Tax {
 
     
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getId() {
         return id;
     }
@@ -100,6 +104,10 @@ public class Tax {
 
     public Date getDate() {
         return date;
+    }
+
+    public void setClothe(ClotheSold clothe){
+        this.clothes.add(clothe);
     }
 
     public void setDate(Date date) {
@@ -203,6 +211,10 @@ public class Tax {
     public String toString() {
         return "Tax [id=" + id + ", code=" + code + ", price=" + price + ", travelCost=" + travelCost + ", adress="
                 + adress + ", date=" + date + ", user=" + user  +"]";
+    }
+
+    public void setClothes(Set<ClotheSold> clothes) {
+        this.clothes = clothes;
     }
 
     
