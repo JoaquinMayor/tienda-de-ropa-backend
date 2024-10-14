@@ -23,6 +23,7 @@ public class ClotheSold extends Clothe {
     private Set<Tax> taxes;
     
     public ClotheSold() {
+        this.taxes = new HashSet<>();
     }
 
     public ClotheSold(String id, String code, String name, String size,
