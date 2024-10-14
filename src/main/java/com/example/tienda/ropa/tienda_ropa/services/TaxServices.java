@@ -41,7 +41,6 @@ public class TaxServices {
             newTax.setPrice(tax.getPrice());
             newTax.setTravelCost(tax.getTravelCost());
             newTax.setAdress(tax.getAdress());
-            newTax.setId(tax.getId());
 
             tax.getClothes().forEach(clothe -> {
                 Optional<ClotheSold> optionalClote = clothesRepository.findById(clothe.getId());
