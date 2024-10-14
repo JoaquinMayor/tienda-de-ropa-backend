@@ -208,11 +208,4 @@ public class Clothe {
                 + ", specificType=" + specificType + ", publication=" + publication + "]";
     }
 
-       @PrePersist
-    public void generateId() {
-        if (this.id == null) {
-            this.id = UUID.randomUUID().toString();
-        }
-    }
-
 }
