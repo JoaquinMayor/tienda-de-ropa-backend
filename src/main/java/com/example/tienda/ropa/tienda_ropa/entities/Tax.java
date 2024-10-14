@@ -66,6 +66,7 @@ public class Tax {
   
 
     public Tax() {
+        this.clothes = new HashSet<>();
     }
 
     public Tax(String id, Float price, Date date, User user, Double travelCost, String adress, String code) {
