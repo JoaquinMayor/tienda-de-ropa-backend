@@ -29,6 +29,23 @@ public class TaxServices {
     
     @Transactional
     public ResponseEntity<?> save(String idUser, Tax tax){
+       
+    Tax newTax = taxMapper(idUser, tax);
+        tax.getClothes().forEach(clothe -> {
+                    clothe.setTax(tax);
+                    newTax.setClothe(clothe);
+                    clothesRepository.save(clothe);
+               });
+
+        taxRepository.save(newTax);
+
+        
+        return ResponseEntityGenerator.genetateResponseEntity("Factura creada con éxito",201,tax);
+            
+    }
+
+
+    public Tax taxMapper(String idUser, Tax tax){
         Optional<User> optionalUser = userRepository.findById(idUser);
         if(optionalUser.isPresent()){
             Tax newTax = new Tax();
@@ -42,29 +59,11 @@ public class TaxServices {
             newTax.setTravelCost(tax.getTravelCost());
             newTax.setAdress(tax.getAdress());
 
-            tax.getClothes().forEach(clothe -> {
-                Optional<ClotheSold> optionalClote = clothesRepository.findById(clothe.getId());
-                if(optionalClote.isPresent()){
-                    ClotheSold clothesnew = optionalClote.get();
-                    clothesnew.setTax(tax);
-                    newTax.setClothe(clothesnew);
-                    clothesRepository.save(clothesnew);
-                }else{
-                    clothe.setTax(tax);
-                    newTax.setClothe(clothe);
-                    clothesRepository.save(clothe);
-                }
-
-               });
-
-            taxRepository.save(newTax);
-
-            userRepository.save(user);
-            return ResponseEntityGenerator.genetateResponseEntity("Factura creada con éxito",201,tax);
-            
+           Tax finalTax = taxRepository.save(newTax);
+           userRepository.save(user);
+            return finalTax;
         }
-
-       return ResponseEntityGenerator.genetateResponseEntity("Usuario no encontrado",404,null);
+        return null;
     }
 
     @Transactional

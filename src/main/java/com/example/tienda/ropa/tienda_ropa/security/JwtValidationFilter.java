@@ -50,7 +50,6 @@ public class JwtValidationFilter extends BasicAuthenticationFilter{
                           .anyMatch(permittedPath -> pathMatcher.match(permittedPath, path));
 
         if (isPermitted) {
-             System.out.println("entre aca !!");
             chain.doFilter(request, response);
             return;
          }
