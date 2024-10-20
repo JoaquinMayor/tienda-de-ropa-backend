@@ -30,11 +30,19 @@ public class TaxServices {
     @Transactional
     public ResponseEntity<?> save(String idUser, Tax tax){
        
-    Tax newTax = taxMapper(idUser, tax);
+        Tax newTax = taxMapper(idUser, tax);
         tax.getClothes().forEach(clothe -> {
-                    clothe.setTax(tax);
+                    ClotheSold newClothe = new ClotheSold();
+                    newClothe.setCant(clothe.getCant());
+                    newClothe.setName(clothe.getName());
+                    newClothe.setPrice(clothe.getPrice());
+                    newClothe.setDescription(clothe.getDescription());
+                    newClothe.setGenericType(clothe.getGenericType());
+                    newClothe.setTax(newTax);
+                    newClothe.setSize(clothe.getSize());
+                    newClothe.setSpecificType(clothe.getSpecificType());
                     newTax.setClothe(clothe);
-                    clothesRepository.save(clothe);
+                    clothesRepository.save(newClothe);
                });
 
         taxRepository.save(newTax);
