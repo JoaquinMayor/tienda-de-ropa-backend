@@ -40,7 +40,7 @@ public class Tax {
 
     @NotNull
     @Column(name = "travel_cost")
-    private Double travelCost;
+    private Float travelCost;
 
     @NotEmpty
     private String adress;
@@ -60,9 +60,9 @@ public class Tax {
     )
     private Set<ClotheSold> clothes;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_user")
+    @JsonIgnore
     private User user;
 
   
@@ -71,7 +71,7 @@ public class Tax {
         this.clothes = new HashSet<>();
     }
 
-    public Tax(String id, Float price, Date date, User user, Double travelCost, String adress, String code) {
+    public Tax(String id, Float price, Date date, User user, Float travelCost, String adress, String code) {
         this.id = id;
         this.price = price;
         this.date = date;
@@ -125,11 +125,11 @@ public class Tax {
         this.user = user;
     }
 
-    public Double getTravelCosto() {
+    public Float getTravelCosto() {
         return travelCost;
     }
 
-    public void setTravelCosto(Double travelCost) {
+    public void setTravelCosto(Float travelCost) {
         this.travelCost = travelCost;
     }
 
@@ -150,11 +150,11 @@ public class Tax {
         this.code = code;
     }
 
-    public Double getTravelCost() {
+    public Float getTravelCost() {
         return travelCost;
     }
 
-    public void setTravelCost(Double travelCost) {
+    public void setTravelCost(Float travelCost) {
         this.travelCost = travelCost;
     }
 
@@ -208,12 +208,6 @@ public class Tax {
         } else if (!adress.equals(other.adress))
             return false;
         return true;
-    }
-
-    @Override
-    public String toString() {
-        return "Tax [id=" + id + ", code=" + code + ", price=" + price + ", travelCost=" + travelCost + ", adress="
-                + adress + ", date=" + date + ", user=" + user  +"]";
     }
 
     public void setClothes(Set<ClotheSold> clothes) {

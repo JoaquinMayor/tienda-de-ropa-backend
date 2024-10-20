@@ -239,24 +239,6 @@ public class User {
         return Objects.hash(id, email);
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "comments=" + comments +
-                ", id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", lastname='" + lastname + '\'' +
-                ", email='" + email + '\'' +
-                ", tel='" + tel + '\'' +
-                ", password='" + password + '\'' +
-                ", image='" + image + '\'' +
-                ", enabled=" + enabled +
-                ", vip=" + vip +
-                ", wisheList=" + wisheList +
-                ", taxs=" + taxs +
-                ", roles=" + roles +
-                '}';
-    }
 
     @PrePersist
     public void generateId() {
