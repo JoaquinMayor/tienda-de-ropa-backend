@@ -215,7 +215,7 @@ public class Clothe {
 
            @PrePersist
     public void generateId() {
-        if (this.id == null) {
+        if (this.id == null || this.id.equals("") || this.id.equals(" ") || this.id.equals(null)) {
             this.id = UUID.randomUUID().toString();
         }
     }
