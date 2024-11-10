@@ -79,9 +79,4 @@ public class ClotheSold extends Clothe {
         return true;
     }
 
-    @Override
-    public String toString() {
-        return super.toString() + "ClothesSold [cant=" + cant + taxes+ "]";
-    }
-
 }

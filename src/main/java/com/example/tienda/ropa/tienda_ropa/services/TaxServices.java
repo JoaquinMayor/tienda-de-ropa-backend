@@ -19,59 +19,58 @@ import com.example.tienda.ropa.tienda_ropa.repositories.IUserRepository;
 
 @Service
 public class TaxServices {
-    
+
     @Autowired 
     private ITaxRepository taxRepository;
     @Autowired
     private IUserRepository userRepository;
     @Autowired
     private IClothesSoldRepository clothesRepository;
-    
+
     @Transactional
-    public ResponseEntity<?> save(String idUser, Tax tax){
+    public ResponseEntity<?> save(String idUser, Tax tax) {
         Optional<User> optionalUser = userRepository.findById(idUser);
-         if(optionalUser.isPresent()){
+
+        if (optionalUser.isPresent()) {
             User user = optionalUser.get();
             Tax newTax = taxMapper(tax);
-            newTax.setUser(user);
             taxRepository.save(newTax);
+
             tax.getClothes().forEach(clothe -> {
                 ClotheSold newClothe = new ClotheSold();
                 newClothe.setId(UUID.randomUUID().toString());
-                newClothe.setCant(clothe.getCant());
                 newClothe.setCode(clothe.getCode());
+                newClothe.setCant(clothe.getCant());
                 newClothe.setName(clothe.getName());
                 newClothe.setPrice(clothe.getPrice());
                 newClothe.setDescription(clothe.getDescription());
                 newClothe.setGenericType(clothe.getGenericType());
-                newClothe.setTax(newTax);
                 newClothe.setSize(clothe.getSize());
-                newClothe.setPublication(clothe.getPublication());
                 newClothe.setSpecificType(clothe.getSpecificType());
-                newTax.setClothe(newClothe);
+                newClothe.setTax(newTax);
+                newTax.getClothes().add(newClothe);
                 clothesRepository.save(newClothe);
             });
             user.setTax(newTax);
             userRepository.save(user);
-            
-         }
-        return ResponseEntityGenerator.genetateResponseEntity("Factura creada con éxito",201,tax);
-            
-    }
 
+            return ResponseEntityGenerator.genetateResponseEntity("Factura creada con éxito", 201, newTax);
+        }
+
+        return ResponseEntity.badRequest().body("Usuario no encontrado");
+    }
 
     public Tax taxMapper(Tax tax){
             Tax newTax = new Tax();
-            newTax.setId(UUID.randomUUID().toString());
             newTax.setCode(tax.getCode());
             newTax.setDate(tax.getDate());
             newTax.setPrice(tax.getPrice());
             newTax.setTravelCost(tax.getTravelCost());
             newTax.setAdress(tax.getAdress());
 
-            tax.setId(newTax.getId());
-            return newTax;
-        
+
+           taxRepository.save(newTax);
+         return newTax;
 
     }
 
