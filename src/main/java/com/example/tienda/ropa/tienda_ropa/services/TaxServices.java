@@ -38,25 +38,13 @@ public class TaxServices {
             taxRepository.save(newTax); 
 
             tax.getClothes().forEach(clothe -> {
-                ClotheSold newClothe = new ClotheSold();
-                newClothe.setId(UUID.randomUUID().toString());
-                newClothe.setCode(clothe.getCode());
-                newClothe.setCant(clothe.getCant());
-                newClothe.setName(clothe.getName());
-                newClothe.setPrice(clothe.getPrice());
-                newClothe.setDescription(clothe.getDescription());
-                newClothe.setGenericType(clothe.getGenericType());
-                newClothe.setPublication(clothe.getPublication());
-                newClothe.setTax(newTax); 
-                newClothe.setSize(clothe.getSize());
-                newClothe.setSpecificType(clothe.getSpecificType());
+                ClotheSold newClothe = mapperClotheSold(clothe, newTax);
                 newTax.setClothe(newClothe);
-                clothesRepository.save(newClothe);
             });
-
+            Tax saveTax = taxRepository.save(newTax);
             user.setTax(newTax);
             userRepository.save(user); 
-            return ResponseEntityGenerator.genetateResponseEntity("Factura creada con éxito", 201, newTax);
+            return ResponseEntityGenerator.genetateResponseEntity("Factura creada con éxito", 201, saveTax);
         }
         return ResponseEntityGenerator.genetateResponseEntity("Usuario No encontrado", 404, "Usuario No encontrado");
     }
@@ -72,6 +60,23 @@ public class TaxServices {
             newTax.setAdress(tax.getAdress());
          return newTax;
 
+    }
+    public ClotheSold mapperClotheSold(ClotheSold clothe, Tax tax){
+        ClotheSold newClothe = new ClotheSold();
+        newClothe.setId(UUID.randomUUID().toString());
+        newClothe.setCode(clothe.getCode());
+        newClothe.setCant(clothe.getCant());
+        newClothe.setName(clothe.getName());
+        newClothe.setPrice(clothe.getPrice());
+        newClothe.setDescription(clothe.getDescription());
+        newClothe.setGenericType(clothe.getGenericType());
+        newClothe.setPublication(clothe.getPublication());
+        newClothe.setTax(tax);
+        newClothe.setSize(clothe.getSize());
+        newClothe.setSpecificType(clothe.getSpecificType());
+
+        clothesRepository.save(newClothe);
+        return newClothe;
     }
 
     @Transactional
