@@ -53,7 +53,7 @@ public class Tax {
 
     @ManyToMany
     @JoinTable(
-        name = "taxXclotheSold",
+        name = "taxxclothesold",
         joinColumns= @JoinColumn(name = "tax_id"),
         inverseJoinColumns = @JoinColumn(name = "clothe_id"),
         uniqueConstraints = {@UniqueConstraint(columnNames = {"tax_id","clothe_id"})}

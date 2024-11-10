@@ -66,6 +66,7 @@ public class Clothe {
     }
 
     public String getName() {
+
         return name;
     }
 
@@ -85,6 +86,9 @@ public class Clothe {
         return price;
     }
 
+    public void setId(String id){
+        this.id = id;
+    }
     public void setPrice(double price) {
         this.price = price;
     }
@@ -121,9 +125,16 @@ public class Clothe {
     public Date getPublication() {
         return publication;
     }
+    public void setPublication(Date publication){
+        this.publication = publication;
+    }
 
     public String getCode() {
         return code;
+    }
+
+    public void setCode(String code){
+        this.code = code;
     }
 
     @Override

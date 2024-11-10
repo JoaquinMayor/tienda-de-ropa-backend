@@ -29,49 +29,50 @@ public class TaxServices {
     
     @Transactional
     public ResponseEntity<?> save(String idUser, Tax tax){
-       
-        Tax newTax = taxMapper(idUser, tax);
-        tax.getClothes().forEach(clothe -> {
-                    ClotheSold newClothe = new ClotheSold();
-                    newClothe.setCant(clothe.getCant());
-                    newClothe.setName(clothe.getName());
-                    newClothe.setPrice(clothe.getPrice());
-                    newClothe.setDescription(clothe.getDescription());
-                    newClothe.setGenericType(clothe.getGenericType());
-                    newClothe.setTax(newTax);
-                    newClothe.setSize(clothe.getSize());
-                    newClothe.setSpecificType(clothe.getSpecificType());
-                    newTax.setClothe(clothe);
-                    clothesRepository.save(newClothe);
-               });
-
-        taxRepository.save(newTax);
-
-        
+        Optional<User> optionalUser = userRepository.findById(idUser);
+         if(optionalUser.isPresent()){
+            User user = optionalUser.get();
+            Tax newTax = taxMapper(tax);
+            newTax.setUser(user);
+            taxRepository.save(newTax);
+            tax.getClothes().forEach(clothe -> {
+                ClotheSold newClothe = new ClotheSold();
+                newClothe.setId(UUID.randomUUID().toString());
+                newClothe.setCant(clothe.getCant());
+                newClothe.setCode(clothe.getCode());
+                newClothe.setName(clothe.getName());
+                newClothe.setPrice(clothe.getPrice());
+                newClothe.setDescription(clothe.getDescription());
+                newClothe.setGenericType(clothe.getGenericType());
+                newClothe.setTax(newTax);
+                newClothe.setSize(clothe.getSize());
+                newClothe.setPublication(clothe.getPublication());
+                newClothe.setSpecificType(clothe.getSpecificType());
+                newTax.setClothe(newClothe);
+                clothesRepository.save(newClothe);
+            });
+            user.setTax(newTax);
+            userRepository.save(user);
+            
+         }
         return ResponseEntityGenerator.genetateResponseEntity("Factura creada con éxito",201,tax);
             
     }
 
 
-    public Tax taxMapper(String idUser, Tax tax){
-        Optional<User> optionalUser = userRepository.findById(idUser);
-        if(optionalUser.isPresent()){
+    public Tax taxMapper(Tax tax){
             Tax newTax = new Tax();
-            User user = optionalUser.orElseThrow();
-            user.setTax(tax);
-            newTax.setUser(user);
-
+            newTax.setId(UUID.randomUUID().toString());
             newTax.setCode(tax.getCode());
             newTax.setDate(tax.getDate());
             newTax.setPrice(tax.getPrice());
             newTax.setTravelCost(tax.getTravelCost());
             newTax.setAdress(tax.getAdress());
 
-           Tax finalTax = taxRepository.save(newTax);
-           userRepository.save(user);
-            return finalTax;
-        }
-        return null;
+            tax.setId(newTax.getId());
+            return newTax;
+        
+
     }
 
     @Transactional
