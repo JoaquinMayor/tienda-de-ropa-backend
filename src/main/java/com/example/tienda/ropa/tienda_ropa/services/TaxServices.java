@@ -30,11 +30,12 @@ public class TaxServices {
     @Transactional
     public ResponseEntity<?> save(String idUser, Tax tax) {
         Optional<User> optionalUser = userRepository.findById(idUser);
-
+         
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
             Tax newTax = taxMapper(tax);
-            taxRepository.save(newTax);
+            newTax.setUser(user); 
+            taxRepository.save(newTax); 
 
             tax.getClothes().forEach(clothe -> {
                 ClotheSold newClothe = new ClotheSold();
@@ -45,31 +46,30 @@ public class TaxServices {
                 newClothe.setPrice(clothe.getPrice());
                 newClothe.setDescription(clothe.getDescription());
                 newClothe.setGenericType(clothe.getGenericType());
+                newClothe.setPublication(clothe.getPublication());
+                newClothe.setTax(newTax); 
                 newClothe.setSize(clothe.getSize());
                 newClothe.setSpecificType(clothe.getSpecificType());
-                newClothe.setTax(newTax);
-                newTax.getClothes().add(newClothe);
+                newTax.setClothe(newClothe);
                 clothesRepository.save(newClothe);
             });
-            user.setTax(newTax);
-            userRepository.save(user);
 
+            user.setTax(newTax);
+            userRepository.save(user); 
             return ResponseEntityGenerator.genetateResponseEntity("Factura creada con éxito", 201, newTax);
         }
-
-        return ResponseEntity.badRequest().body("Usuario no encontrado");
+        return ResponseEntityGenerator.genetateResponseEntity("Usuario No encontrado", 404, "Usuario No encontrado");
     }
+
 
     public Tax taxMapper(Tax tax){
             Tax newTax = new Tax();
+            newTax.setId(UUID.randomUUID().toString());
             newTax.setCode(tax.getCode());
             newTax.setDate(tax.getDate());
             newTax.setPrice(tax.getPrice());
             newTax.setTravelCost(tax.getTravelCost());
             newTax.setAdress(tax.getAdress());
-
-
-           taxRepository.save(newTax);
          return newTax;
 
     }
