@@ -1,0 +1,27 @@
+package com.example.tienda.ropa.tienda_ropa.controllers.user;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.tienda.ropa.tienda_ropa.services.user.RestorePasswordService;
+
+import jakarta.mail.MessagingException;
+
+@RestController
+@RequestMapping("/restore/password")
+public class PasswordController {
+
+    @Autowired
+    private RestorePasswordService restorePasswordService;
+
+
+    @GetMapping("/{email}")
+    public ResponseEntity<?> sendEmailPassword(@PathVariable String email) throws MessagingException{
+        return this.restorePasswordService.sendEmailRestore(email);
+    }
+
+}

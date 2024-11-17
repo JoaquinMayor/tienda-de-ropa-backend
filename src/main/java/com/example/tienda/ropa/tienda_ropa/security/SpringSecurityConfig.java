@@ -65,6 +65,7 @@ public class SpringSecurityConfig {
         .requestMatchers(HttpMethod.POST,"/api/mercado").permitAll()
         .requestMatchers("/doc/swagger-ui/**").permitAll()
         .requestMatchers("/v3/api-docs/**").permitAll()
+        .requestMatchers(HttpMethod.GET,"/restore/password/{email}").permitAll()
         .anyRequest().authenticated())//hacemos que a esa direccion sea pública, pero que al resto se le necesite una autentificación
         .addFilter(new JwtAuthenticationFilter(authenticationManager())) //Agregamos el filtro creado
         .addFilter(new JwtValidationFilter(authenticationManager()))
