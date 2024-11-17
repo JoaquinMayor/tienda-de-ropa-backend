@@ -23,6 +23,7 @@ public class TokenJwtConfig {
     "/api/mercado",
     "/doc/swagger-ui/**",
     "/v3/api-docs/**",
-    "/restore/password/**"
+    "/restore/password/**",
+    "/restore/password/change"
 );
 }
