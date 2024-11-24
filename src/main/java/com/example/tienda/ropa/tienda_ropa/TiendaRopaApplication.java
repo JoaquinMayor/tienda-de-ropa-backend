@@ -14,13 +14,13 @@ public class TiendaRopaApplication {
 	}
 
 	@Bean
-    public WebServerFactoryCustomizer<ConfigurableWebServerFactory> webServerFactoryCustomizer() {
-        return factory -> {
-            String port = System.getenv("PORT");
-            if (port != null) {
-                factory.setPort(Integer.parseInt(port));
-            }
-        };
-    }
+	public WebServerFactoryCustomizer<ConfigurableWebServerFactory> webServerFactoryCustomizer() {
+		return factory -> {
+			String port = System.getenv("PORT");
+			if (port != null) {
+				factory.setPort(Integer.parseInt(port));
+			}
+		};
+	}
 
 }
