@@ -69,7 +69,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 Claims claims = Jwts.claims().add("authorities", new ObjectMapper().writeValueAsString(roles)).build(); //Construye el claims que es un tipo de información que queresmos agregar al token
                 
 
-                String token = Jwts.builder().subject(username).expiration(new Date(System.currentTimeMillis() + 3600000))//El token expira en una hora
+                String token = Jwts.builder().subject(username)
                 .claims(claims)
                 .issuedAt(new Date()) //Fecha en la que se crea
                 .signWith(SECRET_KEY).compact();//Generando el Token
