@@ -79,7 +79,7 @@ public class SpringSecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource(){//Configuración para compartir el backend con el front
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOriginPatterns(Arrays.asList("https://freshfits.netlify.app")); //Acá van las rutas
+        config.setAllowedOriginPatterns(Arrays.asList("*")); //Acá van las rutas
         config.setAllowedMethods(Arrays.asList("GET","POST","DELETE","PUT", "OPTIONS")); //Aclaramos en que tipo de métodos los queremos agregar
         config.setAllowedHeaders(Arrays.asList("Authorization","Content-Type"));
         config.setAllowCredentials(true);
