@@ -13,4 +13,14 @@ public class TiendaRopaApplication {
 		SpringApplication.run(TiendaRopaApplication.class, args);
 	}
 
+	@Bean
+	public WebServerFactoryCustomizer<ConfigurableWebServerFactory> webServerFactoryCustomizer() {
+		return factory -> {
+			String port = System.getenv("PORT");
+			if (port != null) {
+				factory.setPort(Integer.parseInt(port));
+			}
+		};
+	}
+
 }
